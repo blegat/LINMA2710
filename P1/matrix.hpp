@@ -8,7 +8,7 @@ class Matrix
 {
 private:
     int rows, cols;
-    std::vector<vector<double>> data;
+    std::vector<std::vector<double>> data;
 
 public:
     // Constructors
