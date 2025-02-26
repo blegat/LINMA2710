@@ -6,7 +6,7 @@ This folder contains the [Pluto](https://plutojl.org/) notebooks of the course. 
 
 ## Option 1 : Static version
 
-[<img src="https://raw.githubusercontent.com/fonsp/Pluto.jl/dd0ead4caa2d29a3a2cfa1196d31e3114782d363/frontend/img/logo_white_contour.svg" height="16"/> notebooks](https://blegat.github.io/LINMA2472/) ← Follow this link to access a static version of the notebooks that can be visualized in your web browser without the need to install [Julia](https://julialang.org/) nor [Pluto](https://plutojl.org/).
+[<img src="https://raw.githubusercontent.com/fonsp/Pluto.jl/dd0ead4caa2d29a3a2cfa1196d31e3114782d363/frontend/img/logo_white_contour.svg" height="16"/> notebooks](https://blegat.github.io/LINMA2710/) ← Follow this link to access a static version of the notebooks that can be visualized in your web browser without the need to install [Julia](https://julialang.org/) nor [Pluto](https://plutojl.org/).
 To visualize it as slides, open the javascript console of your web browser and enter `present()`. To leave this slide mode, enter `present()` again.
 To enter full screen mode, use `F11` on your keyboard.
 
