@@ -44,7 +44,13 @@ jobs:
                       ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml', '.github/workflows/*' ) }}
 
             - name: Install LLVM OpenMP runtime
-              run: sudo apt install -y libomp-dev
+              run: |
+                sudo apt install -y libomp-dev
+                whereis omp.h
+                mkdir tmp
+                cd tmp
+                apt download libomp-18-dev
+                dpkg -c *
 
             - name: Instantiate
               run: |
