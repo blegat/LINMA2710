@@ -39,6 +39,10 @@ You should now be able to connect to the manneback cluster with
 (your computer) $ ssh manneback
 ```
 
+> [!TIP]
+> For choosing the clusters, check [this list](https://www.ceci-hpc.be/clusters.html) and [this one with manneback](https://www.cism.ucl.ac.be/doc/_contents/Computing/index.html#available-hardware) to see which one has the hardware you need.
+> The [Lyra](https://www.ceci-hpc.be/clusters.html#lyra) cluster was recently added with GPU support so it could also be used for P3 if manneback is overloaded.
+
 In addition to the information below and the CECI documentation [here is a little FAQ](https://docs.google.com/document/d/1CgwDDCUR7tAVCu2MmsscXV-KDEK3UhtOHoCFaztm0-s/edit?usp=sharing).
 
 ### Syncing your files

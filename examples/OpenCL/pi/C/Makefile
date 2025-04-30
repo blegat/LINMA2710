@@ -6,7 +6,7 @@ CCFLAGS=-O3 -std=c99 -DCL_TARGET_OPENCL_VERSION=300
 
 LIBS = -lOpenCL -fopenmp -lm
 
-COMMON_DIR = ../common
+COMMON_DIR = ../../C_common
 
 # Check our platform and make sure we define the APPLE variable
 # and set up the right compiler flags and libraries
