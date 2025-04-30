@@ -6,7 +6,7 @@ CCFLAGS=-O3 -lm -DCL_TARGET_OPENCL_VERSION=300
 
 LIBS = -lOpenCL -fopenmp
 
-COMMON_DIR = ../common
+COMMON_DIR = ../C_common
 
 # Change this variable to specify the device type
 # to the OpenCL device type of choice. You can also

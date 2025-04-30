@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
     cl_mem d_partial_sums;
 
-    char *kernelsource = getKernelSource("pi_ocl.cl");             // Kernel source
+    char *kernelsource = getKernelSource("../pi_ocl.cl");             // Kernel source
 
     cl_int err;
     cl_device_id        device;     // compute device id

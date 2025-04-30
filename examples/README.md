@@ -1,8 +1,12 @@
-# Profiling with `tau2`
+# Profiling
+
+We explain in this section how to profile your code with `tau2` or `tracy`.
+
+## Profiling with `tau2`
 
 We detail the use of `tau2` for profiling OpenCL. See also [these slides](https://indico.ijs.si/event/1183/sessions/171/attachments/1065/1362/EuroCC_Intro_to_parallel_programming_accelerators_pt-2.pdf).
 
-## Installing `tau2`
+### Installing `tau2`
 
 > [!IMPORTANT]
 > `tau2` is available on the `manneback` cluster in the `releases/2023b`.
@@ -11,7 +15,7 @@ We detail the use of `tau2` for profiling OpenCL. See also [these slides](https:
 > 1. Use X11 forwarding on the cluster (either using `ForwardX11 yes` in your `.ssh/config` file or using `ssh -X manneback`), you will also need `module load Java` and then you can run `paraprof` or `jumpshot` on the cluster.
 > 2. You can install `tau2` on your own computer, copy the profiling file to your computer and run `paraprof` or `jumpshot` on your computer.
 
-### Installing from source
+#### Installing from source
 
 > [!WARNING]
 > Make sure to [deactivate any conda environment](https://docs.conda.io/projects/conda/en/4.6.1/user-guide/tasks/manage-environments.html#deactivating-an-environment) before compiling `tau2`.
@@ -81,7 +85,7 @@ This `PATH` environment is only updated for this shell session. In order to appl
 [blegat@mbackf1 tau2]$ echo "export PATH=$(pwd)/x86_64/bin:\$PATH" >> ~/.bashrc
 ```
 
-## Profiling OpenCL with `tau2`
+### Profiling OpenCL with `tau2`
 
 Given a binary `a.out` that is using OpenCL, it can be profiled as follows.
 Consider for instance `vadd_chain`
@@ -129,7 +133,7 @@ run the following in the folder where the `profile...` files are
 [blegat@mbackf1 vadd_chain]$ paraprof
 ```
 
-## Tracing OpenCL with `tau2`
+### Tracing OpenCL with `tau2`
 
 By setting the `TAU_TRACE` environment variable to `1`, `tau_exec` will collect traces instead of profiles as in the previous section.
 ```sh
@@ -154,3 +158,8 @@ run the following in the folder where the `tau.slog2` file is
 ```sh
 [blegat@mbackf1 vadd_chain]$ jumpshot tau.slog2
 ```
+
+## Profiling with Tracy profiler
+
+An example for profiling OpenCL with Tracy is available [here](https://github.com/wolfpld/tracy/tree/master/examples/OpenCLVectorAdd).
+We also added [a slightly adapted version in here](OpenCL/tracy) where you also have instructions on how to run in on the cluster.
