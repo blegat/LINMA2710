@@ -5,7 +5,8 @@
 // Define CL_HPP_ENABLE_EXCEPTIONS and CL_HPP_TARGET_OPENCL_VERSION
 #define CL_HPP_ENABLE_EXCEPTIONS
 #define CL_HPP_TARGET_OPENCL_VERSION 200
-#include <CL/cl2.hpp> // Use OpenCL C++ bindings
+#include <CL/cl.h>
+#include "CL/opencl.hpp" // Use OpenCL C++ bindings
 
 #include <vector>
 #include <string>
