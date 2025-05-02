@@ -20,8 +20,6 @@ The contructor initialize a buffer on the device filled with zeroes or provided 
 
 In OpenCL, the code executed on the device must be compiled during the program execution. In order to avoid compiling this code at each function call, the codes are compiled one time at initialization with 'initializeKernels', and stored in 'kernels_', which is an object shared by all the MatrixCL objects. 
 
-
-
 ## Questions
 
 1. Implement 2 versions of the matrix-matrix multiplication: a simple and a faster one. Provide your two OpenCL kernel codes in the report and explain them briefly.
@@ -34,7 +32,7 @@ In OpenCL, the code executed on the device must be compiled during the program e
  - **Fraud**:  As always for this course, you must do all the writing (report, code) <ins>individually</ins>. Never share your production. However, you are allowed, and even encouraged, to exchange ideas on how to address the assignment.
  - **Plagiarism**: As always, you must cite all your sources.
  - **Report Submission**: Using the Moodle assignment activity, submit your report in a file called `Report_Project_3_FirstName_LastName.pdf`. The report should be short (maximum 2 pages for the text; the codes, tables and images are not counted in the 2 pages limit) and should include answers to the questions.
- - **Code Submission**: On Inginious, submit your files `matrix_opencl.cpp`, `matrix_opencl.hpp` containing your implementation of the `MatrixCL` class. You are allowed to make as many submission as you need, only the last submission will be taken into account. You are advised to verify that your submission passes the tests in Inginious early before the deadline. Note that, even if submitting the code on Inginious is mandatory, the Inginious automatic grading has no influence to the final grading. The tests on Inginious are similar to those included in `main.cpp`. Since these tests are minimalist, passing them is a necessary but not sufficient condition for having a correct code.
+ - **Code Submission**: On [Inginious](https://inginious.info.ucl.ac.be/course/LINMA2710/project_opencl), submit your files `matrix_opencl.cpp`, `matrix_opencl.hpp` containing your implementation of the `MatrixCL` class. You are allowed to make as many submission as you need, only the last submission will be taken into account. You are advised to verify that your submission passes the tests in Inginious early before the deadline. Note that, even if submitting the code on Inginious is mandatory, the Inginious automatic grading has no influence to the final grading. The tests on Inginious are similar to those included in `main.cpp`. Since these tests are minimalist, passing them is a necessary but not sufficient condition for having a correct code.
  - **LLM**: The use of artificial intelligence tools is permitted provided that you mention both the AI tool used and the prompts/commands used in the comments of your submitted code and in your report.
  - **Language**: English is the default language. However, since the course is French-friendly, French is accepted without penalty.
  - **Questions**: If you have any questions, please contact the TA: `benoit.loucheur@uclouvain.be` and `brieuc.pinon@uclouvain.be`.
