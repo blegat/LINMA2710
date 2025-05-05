@@ -1,5 +1,6 @@
 import Clang_jll
 import LLVMOpenMP_jll
+import MPI
 import MultilineStrings
 import InteractiveUtils
 
@@ -60,7 +61,7 @@ function compile(
     emit_llvm = false,
     cflags = ["-O3"],
     mpi::Bool = false,
-    use_system::Bool = mpi,
+    use_system::Bool = false,
     verbose = 0,
 )
     path = mktempdir()
@@ -87,12 +88,20 @@ function compile(
         push!(args, "-I$(dir)/include")
         push!(args, "-L$(dir)/lib")
     end
+    cmp = compiler(code, mpi)
+    if mpi && !use_system
+        dir = dirname(dirname(MPI.API.libmpi))
+        cmp = joinpath(dir, "bin", "mpicc")
+        push!(args, "-I$(dir)/include")
+        push!(args, "-L$(dir)/lib")
+        use_system = true
+    end
     push!(args, main_file)
     push!(args, "-o")
     push!(args, bin_file)
     try
         if use_system
-            cmd = Cmd([compiler(code, mpi); args])
+            cmd = Cmd([cmp; args])
             if verbose >= 1
                 @info("Compiling : $cmd")
             end
@@ -130,21 +139,33 @@ function compile_lib(code::Code; kws...)
     return codesnippet(code), compile(code; lib = true, kws...)
 end
 
-function compile_and_run(code::Code; verbose = 0, args = String[], mpi::Bool = false, num_processes = nothing, show_run_command = !isempty(args) || verbose >= 1, kws...)
-    bin_file = compile(code; lib = false, mpi, verbose, kws...)
+function compile_and_run(code::Code; verbose = 0, args = String[], mpi::Bool = false, use_system = false, num_processes = nothing, show_run_command = !isempty(args) || verbose >= 1, kws...)
+    bin_file = compile(code; lib = false, mpi, use_system, verbose, kws...)
     if !isnothing(bin_file)
         cmd_vec = [bin_file; args]
         if mpi
             if !isnothing(num_processes)
                 cmd_vec = [["-n", string(num_processes)]; cmd_vec]
             end
-            cmd_vec = ["mpiexec"; cmd_vec]
+            if use_system
+                cmd_vec = ["mpiexec"; cmd_vec]
+            end
         end
-        cmd = Cmd(cmd_vec)
-        if show_run_command
-            @info("Running : $cmd") # `2:end-1` to remove the backsticks
+        if mpi && !use_system
+            MPI.mpiexec() do exe
+                cmd = Cmd([exe; cmd_vec])
+                if show_run_command
+                    @info("Running : $cmd")
+                end
+                run(cmd)
+            end
+        else
+            cmd = Cmd(cmd_vec)
+            if show_run_command
+                @info("Running : $cmd")
+            end
+            run(cmd)
         end
-        run(cmd)
     end
     return codesnippet(code)
 end
