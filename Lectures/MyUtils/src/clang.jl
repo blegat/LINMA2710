@@ -1,4 +1,5 @@
 import Clang_jll
+import LLVMOpenMP_jll
 import MultilineStrings
 import InteractiveUtils
 
@@ -80,6 +81,11 @@ function compile(
     if emit_llvm
         push!(args, "-S")
         push!(args, "-emit-llvm")
+    end
+    if "-fopenmp" in cflags && !use_system
+        dir = LLVMOpenMP_jll.artifact_dir
+        push!(args, "-I$(dir)/include")
+        push!(args, "-L$(dir)/lib")
     end
     push!(args, main_file)
     push!(args, "-o")
