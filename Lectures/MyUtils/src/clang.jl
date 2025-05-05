@@ -59,7 +59,7 @@ function compile(
     emit_llvm = false,
     cflags = ["-O3"],
     mpi::Bool = false,
-    use_system::Bool = mpi || "-fopenmp" in cflags, # `-fopenmp` will not work with pure Clang_jll, it needs openmp installed as well
+    use_system::Bool = mpi,
     verbose = 0,
 )
     path = mktempdir()

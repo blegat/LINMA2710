@@ -5,6 +5,8 @@ on:
         branches:
             - main
             - master
+    pull_request:
+        types: [opened, synchronize, reopened]
     workflow_dispatch:
 
 # When two jobs run in parallel, cancel the older ones, to make sure that the website is generated from the most recent commit.
@@ -52,7 +54,6 @@ jobs:
               run: |
                 sudo apt-get install -y hwloc # For lstopo
                 sudo apt-get install -y openmpi-bin libopenmpi-dev
-                sudo apt-get install -y libomp-dev
 
             - name: Instantiate
               run: |
