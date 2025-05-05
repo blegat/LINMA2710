@@ -49,7 +49,7 @@ jobs:
             - name: Ignore notebook state cache in export
               run: echo 'pluto_state_cache' >> .gitignore
 
-            - name: Install LLVM OpenMP runtime
+            - name: Install OpenMPI and hwloc
               shell: bash {0}
               run: |
                 sudo apt-get install -y hwloc # For lstopo
@@ -85,6 +85,7 @@ jobs:
 
             - name: Deploy to gh-pages
               uses: JamesIves/github-pages-deploy-action@releases/v4
+              if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   branch: gh-pages
