@@ -686,9 +686,9 @@ frametitle("Graph diameter")
 # ╔═╡ 98392c40-6542-4a26-8552-c0960bbaa6a6
 md"""
 * Consider graph ``G`` with nodes ``v`` corresponding to computer nodes or switches.
-* There is an edge ``(u, v) \in E`` if there is an ethernet cable **directly** connecting ``u`` and ``b``.
+* There is an edge ``(u, v) \in E`` if there is an ethernet cable **directly** connecting ``u`` and ``v``.
 *  ``e \in E`` are ethernet cables of bandwidth ``w_e``
-* Distance (unweighted) from node ``i \in V`` to node ``j \in V`` is ``d(G, u, v)``
+* Distance (unweighted) from node ``u \in V`` to node ``v \in V`` is ``d(G, u, v)``
   - Does not depend on bandwidth ``w_e`` of edges of the path
 """
 
@@ -803,7 +803,7 @@ img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol1_scientifi
 Foldable(md"What is the graph diameter of a ``n \times n`` 2D array ?",
 md"""
 It is ``2(n-1)``, attained for opposite vertices of the square.
-$(Foldable(md"What is the bisection width of a ``n^d`` ``d``D array ?",
+$(Foldable(md"What is the graph diameter of a ``n^d`` ``d``D array ?",
 md"It is ``d(n-1)``, attained for opposite vertices of the hypercube."))
 """)
 
@@ -813,7 +813,7 @@ md"""
 It is ``n = \sqrt{|V|}``:
 $(img("https://upload.wikimedia.org/wikipedia/commons/2/2f/Bisected_mesh.jpg", :width => "300pt"))
 $(Foldable(md"What is the bisection width of a ``n^d`` ``d``D array ?",
-md"It is 1 for ``d = 1``, ``n`` for ``d = 2`` and ``n^2`` for ``d = 3``. In general, it is ``n^{-1} = |V|^{(d-1)/d}``"))
+md"It is 1 for ``d = 1``, ``n`` for ``d = 2`` and ``n^2`` for ``d = 3``. In general, it is ``n^{d-1} = |V|^{(d-1)/d}``"))
 """)
 
 # ╔═╡ 2c84bd84-b54d-4594-b9f8-35db2124d7e8
