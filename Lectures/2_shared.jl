@@ -469,7 +469,7 @@ aside(bibcite(biblio, "eijkhout2010Introduction", "Figure 1.11"), v_offset = -28
 
 # ╔═╡ de0bbef2-1240-4f85-889f-0af509d6cfff
 	aside(tip(md"""
-See examples in $(bibcite(biblio, "eijkhout2010Introduction", "Section 1.7.1")).
+See examples in $(bibcite(biblio, "eijkhout2010Introduction", "Section 1.5.1.1")).
 """), v_offset=-300)
 
 # ╔═╡ ea9ff1a9-615d-4e18-a4c8-9aad20447156
