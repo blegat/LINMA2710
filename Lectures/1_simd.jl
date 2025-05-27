@@ -248,7 +248,7 @@ We can check in the [Intel® Intrinsics Guide](https://www.intel.com/content/www
 frametitle("SIMD at LLVM level")
 
 # ╔═╡ 7a5620c8-2ca0-4422-851d-39c5b65226e5
-md"How can you check that SIMD is enable ? Let's check at the level of LLVM IR."
+md"How can you check that SIMD is enabled? Let's check at the level of LLVM IR."
 
 # ╔═╡ fc278dad-6133-466b-8c3a-775353bdd64a
 function f(x1, x2, x3, x4, y1, y2, y3, y4)
