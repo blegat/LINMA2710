@@ -35,6 +35,7 @@ Then open the url given after `Go to` using a web browser on your local computer
 [blegat@mbackf1 ~] git clone https://github.com/blegat/LINMA2710.git
 [blegat@mbackf1 ~] cd LINMA2710/Lectures
 [blegat@mbackf1 ~] sh install_julia.sh
+[blegat@mbackf1 ~] source ~/.bashrc
 [blegat@mbackf1 ~] sbatch pluto_gpu1.sh
 [blegat@mbackf1 Lectures]$ sbatch pluto_gpu1.sh
 Submitted batch job 56863614
