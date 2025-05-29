@@ -114,7 +114,7 @@ frametitle("Compiling")
 
 # ╔═╡ 35ba1eea-56ae-4b74-af96-21ec5a93c455
 md"""
-You could simply add `lmpi` bu using `mpicc` and `mpic++` is easier.
+You could simply add `lmpi` but using `mpicc` and `mpic++` is easier.
 """
 
 # ╔═╡ 8981b5e2-2497-478e-ab28-a14b62f6f916
