@@ -66,7 +66,7 @@ MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 
 # ╔═╡ d722a86d-6d51-4d91-ac22-53af94c91497
 vbox([
-	Div(md"Get the id of processes. `procid` is the **different** for **different** processes."; style = Dict("flex-grow" => "1")),
+	Div(md"Get the id of the process. `procid` is the **different** for **different** processes."; style = Dict("flex-grow" => "1")),
 	c"""
 int procid;
 MPI_Comm_rank(MPI_COMM_WORLD, &procid);
@@ -151,7 +151,7 @@ hbox([
 
 # ╔═╡ 5d72bf87-7f3a-4229-9d7a-2e63c115087d
 Foldable(
-	md"Lower bound complexity for ``n`` bytes with ``p`` processes ?",
+	md"Lower bound complexity with ``p`` processes if ``x`` has length ``n`` bytes ?",
 	md"""Lower bound : ``\log_2(p) (\alpha + \beta n)`` using *spanning tree* algorithm:
 
 After first communication (1 → 3):
@@ -249,7 +249,7 @@ hbox([
 
 # ╔═╡ db16e939-b490-497b-a03f-80ce2e8485af
 Foldable(
-	md"Lower bound complexity for ``n`` bytes with ``p`` processes and arithmetic complexity ``\gamma`` ?",
+	md"Lower bound complexity with ``p`` processes if all ``x_i`` have ``n`` bytes and arithmetic complexity ``\gamma`` ?",
 	md"""Lower bound : ``\log_2(p) (\alpha + \beta n) + \log_2(p) \gamma n`` using *spanning tree* algorithm:
 
 First communication (2 → 1 and 4 → 3 at the same time):
@@ -457,7 +457,7 @@ hbox([
 md"""
 Blocking send/received with `MPI_Send` and `MPI_Recv`.
 
-The network cannot buffer the whole message (unless it is short). The sender need to wait for the receiver to be ready and then transfer its copy of the data.
+The network cannot buffer the whole message (unless it is short). The sender needs to wait for the receiver to be ready and then transfer its copy of the data.
 """
 
 # ╔═╡ 34a10003-2c32-4332-b3e6-ce70eec0cbbe
