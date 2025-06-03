@@ -56,7 +56,7 @@ hbox([
 * Most *dedicated* GPUs produced by $(img("https://upload.wikimedia.org/wikipedia/commons/a/a4/NVIDIA_logo.svg", :height => "15pt")) and $(img("https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg", :height => "15pt"))
 * *Integrated* GPUs by $(img("https://upload.wikimedia.org/wikipedia/commons/6/6a/Intel_logo_%282020%2C_dark_blue%29.svg", :height => "15pt")) used in laptops to reduce power consumption
 * Designed for 3D rendering through ones of the APIs : $(img("https://upload.wikimedia.org/wikipedia/commons/7/7f/Microsoft-DirectX-Logo-wordmark.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/21/OpenGL_logo.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/2f/WebGPU_logo.svg", :height => "25pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/f/fe/Vulkan_logo.svg", :height => "20pt")) or Apple's Metal $(img("https://upload.wikimedia.org/wikipedia/commons/8/8d/Metal_3_Logo.png", :height => "20pt"))
-* Illustration on the right is from [Charge's film](https://studio.blender.org/blog/charge-poster/?utm_medium=homepage), it show how 3D modeling work.
+* Illustration on the right is from [Charge's film](https://studio.blender.org/blog/charge-poster/?utm_medium=homepage), it shows how 3D modeling works.
 """,
 	img("https://ddz4ak4pa3d19.cloudfront.net/cache/d3/a3/d3a36ce594d73649a043288f18a8896b.jpg", :width => "120"),
 ])
@@ -67,7 +67,7 @@ frametitle("General-Purpose computing on GPU (GPGPU)")
 # ╔═╡ ed8768e0-4b3c-4a13-8533-2219cbd1d1a1
 hbox([
 	md"""
-Also known as *compute shader* as they abuses the programmable shading of GPUs by treating the data as texture maps.
+Also known as *compute shader* as they abuse the programmable shading of GPUs by treating the data as texture maps.
 """,
 	img("https://upload.wikimedia.org/wikipedia/commons/3/3d/Phong-shading-sample_%28cropped%29.jpg", :height => "100"),
 ])
