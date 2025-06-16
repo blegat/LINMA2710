@@ -420,8 +420,8 @@ Foldable(
 	md"Can `MPI_Allreduce` be implemented by combining existing collectives ?",
 	md"""
 Let the size of each ``x_i`` be ``n`` bytes. `MPI_Allreduce` can be implemented either by combining `MPI_Reduce` followed by `MPI_Bcast` or `MPI_Reduce_scatter` followed by `MPI_Allgather`.
-The first choice would lead to a complexity of ``\log_2(p)(\alpha + \beta n)``
-The second would lead to a complexity of ``\log_2(p)\alpha + \beta n``.
+The first choice would lead to a complexity of ``\log_2(p)(\alpha + \beta n + \gamma n )``
+The second would lead to a complexity of ``\log_2(p)\alpha + \beta n + \gamma n``.
 """,
 )
 
