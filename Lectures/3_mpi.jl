@@ -152,7 +152,7 @@ hbox([
 # ╔═╡ 5d72bf87-7f3a-4229-9d7a-2e63c115087d
 Foldable(
 	md"Lower bound complexity with ``p`` processes if ``x`` has  length ``n`` bytes ?",
-	md"""Lower bound : ``\log_2(p) (\alpha + \beta n)`` using *spanning tree* algorithm:
+	md"""Lower bound : ``\log_2(p) \alpha + \beta n`` using *spanning tree* algorithm:
 
 After first communication (1 → 3):
 
