@@ -408,7 +408,7 @@ vbox([
 |    | ``x_1`` | ``x_2`` | ``x_3`` | ``x_4`` |
 """,
 	#Div(md"` `", style = Dict("margin" => "50pt")),
-	md"""After `MPI_Reduce_scatter`
+	md"""After `MPI_Allreduce`
 
 | `procid` | 1 | 2 | 3 | 4 |
 |----------|---|---|---|---|
