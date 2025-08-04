@@ -954,7 +954,7 @@ aside(md"""See $(bibcite(biblio, "eijkhout2017Parallel", "Section 4.1.4.2"))""",
 
 # ╔═╡ 921b5a18-0733-4032-a543-9d60e254b1b2
 md"""
-* Specializing on topology is important for communication libraries like MPI/NCCL. For instance, Deepseek-V3 by-passed NCCL and used PTX directly to hardcode how ther hardware should be used.
+* Specializing on topology is important for communication libraries like MPI/NCCL. For instance, Deepseek-V3 by-passed NCCL and used PTX directly to hardcode how their hardware should be used.
 * Specified in [Slurm's `topology.conf` file](https://slurm.schedmd.com/topology.conf.html).
 * Source : $(bibcite(biblio, "eijkhout2010Introduction", "Section 2.7"))
 """
