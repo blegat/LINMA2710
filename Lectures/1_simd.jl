@@ -284,7 +284,7 @@ frametitle("SIMD at assembly level")
 @code_native debuginfo=:none f_broadcast((1, 2, 3, 4), (1, 2, 3, 4))
 
 # ╔═╡ 7530ea93-11fd-4931-9dd4-a5e820f8b540
-aside(tip(md"The suffic `v` in front of the instruction stands for `vectorized`. It means it is using a SIMD unit."), v_offset = -300)
+aside(tip(md"The suffix `v` in front of the instruction stands for `vectorized`. It means it is using a SIMD unit."), v_offset = -300)
 
 # ╔═╡ a0abb64b-6dc2-4e98-bdfd-5de9b5c97897
 frametitle("Tuples implementing the array interface")
