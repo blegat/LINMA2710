@@ -52,7 +52,7 @@ hbox([md"""
 * **2005** : Apple hires Chris Lattner from the university
 * **2007** : He then creates the LLVM-based compiler Clang
 * **2009** : Mozilla start developing an LLVM-based compiler for Rust
-* **2009** : Develpment starts on Julia, with LLVM-based compiler
+* **2009** : Development starts on Julia, with LLVM-based compiler
 """,
 	Div(md"""$(@draw begin
 	    placeimage(URL("https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg"), Point(-100, -100), scale = 0.1)
