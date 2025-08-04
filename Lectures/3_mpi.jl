@@ -851,7 +851,7 @@ frametitle("Crossbar")
 
 # ╔═╡ d04b9af5-f004-4ca4-b1c9-2c86d46cb37d
 md"""
-* Each node input is a row and each a node output is a column; [source of figure below](https://www.sciencedirect.com/topics/computer-science/crossbar-network).
+* Each node input is a row and each node output is a column; [source of figure below](https://www.sciencedirect.com/topics/computer-science/crossbar-network).
 * Each intersection is a switch. The cases (a) and (c) represent conflicting cases where two inputs want to simultaneously communicate with the same output.
 """
 
