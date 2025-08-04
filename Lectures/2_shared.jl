@@ -160,7 +160,7 @@ hbox([
 md"""
 * *compute-bound* : For large arithmetic intensity (Alg2 in above picture), performance determined by processor characteristics
 * *bandwidth-bound* : For low arithmetic intensity (Alg1 in above picture), performance determined by memory characteristics
-* Bandwidth line may be be lowered by inefficient memory access (e.g., no locality)
+* Bandwidth line may be lowered by inefficient memory access (e.g., no locality)
 * Peak performance line may be lowered by inefficient use of CPU (e.g., not using SIMD)
 """
 
