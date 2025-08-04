@@ -66,7 +66,7 @@ MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 
 # ╔═╡ d722a86d-6d51-4d91-ac22-53af94c91497
 vbox([
-	Div(md"Get the id of processes. `procid` is the **different** for **different** processes."; style = Dict("flex-grow" => "1")),
+	Div(md"Get the id of processes. `procid` is **different** for **different** processes."; style = Dict("flex-grow" => "1")),
 	c"""
 int procid;
 MPI_Comm_rank(MPI_COMM_WORLD, &procid);
