@@ -220,7 +220,7 @@ Complexity is ``\alpha + 2\beta n/4``
 |    | ``x_3`` |   | ``x_3`` |   |
 |    | ``x_4`` |   | ``x_4`` | ``x_4`` |
 
-It total, it is ``2\alpha + 3\beta n/4``. In general, we have
+In total, it is ``2\alpha + 3\beta n/4``. In general, we have
 ```math
 \log_2(p)\alpha + \beta n(1 + 2 + 4 + \cdots + p/2)/p = \log_2(p)\alpha + \beta n(p - 1)/p \approx \log_2(p)\alpha + \beta n
 ```
