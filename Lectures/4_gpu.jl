@@ -488,7 +488,7 @@ frametitle("Unrolled sum")
 # ╔═╡ 2ab1717e-afc2-4b1a-86e6-e64143546a94
 Foldable(
 	md"How to have portable code using unrolling ?",
-	md"The compiler could do the unrolling automatically when compiling for a specific platform if it know the relevant sizes at **compile time**.",
+	md"The compiler could do the unrolling automatically when compiling for a specific platform if it knows the relevant sizes at **compile time**.",
 )
 
 # ╔═╡ cf439f0a-5e14-45d6-8611-1b84e7574437
