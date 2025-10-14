@@ -83,8 +83,6 @@ jobs:
                     Export_baked_state=false,
                     # more parameters can go here
                   )
-                  @show pwd()
-                  @show isfile("Lectures/5_power.pdf")'
 
             - name: Deploy to gh-pages
               uses: JamesIves/github-pages-deploy-action@releases/v4
