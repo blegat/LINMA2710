@@ -58,7 +58,7 @@ hbox([
 * Designed for 3D rendering through ones of the APIs : $(img("https://upload.wikimedia.org/wikipedia/commons/7/7f/Microsoft-DirectX-Logo-wordmark.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/21/OpenGL_logo.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg", :height => "20pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/2/2f/WebGPU_logo.svg", :height => "25pt")), $(img("https://upload.wikimedia.org/wikipedia/commons/f/fe/Vulkan_logo.svg", :height => "20pt")) or Apple's Metal $(img("https://upload.wikimedia.org/wikipedia/commons/8/8d/Metal_3_Logo.png", :height => "20pt"))
 * Illustration on the right is from [Charge's film](https://studio.blender.org/blog/charge-poster/?utm_medium=homepage), it shows how 3D modeling works.
 """,
-	img("https://ddz4ak4pa3d19.cloudfront.net/cache/d3/a3/d3a36ce594d73649a043288f18a8896b.jpg", :width => "120"),
+	img("https://studio.blender.org/files/c6/c64bba80c9da133a7102043c82224050/c64bba80c9da133a7102043c82224050.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=WPXVUIKB8MLIOWB7INUX%2F20251014%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20251014T103228Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9c6843708758763ef238ad04f3181f69eac511696bf2d9dc5a7361aa238d918c", :width => "120"),
 ])
 
 # ╔═╡ a3f31283-1054-4abe-9ec3-1e753905b83f
