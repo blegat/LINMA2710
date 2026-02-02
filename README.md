@@ -9,23 +9,23 @@ This repository contains different resources for the LINMA2710 courses given at 
 
 ## Schedule
 
-| Week  | Thursday   | Topic             | Lecturer |
-|-------|------------|-------------------|----------|
-| S1    | 06/02/2025 | C++               | Absil    |
-| S2    | 13/02/2025 | C++               | Absil    |
-| S3    | 20/02/2025 | Parallel          | Legat    |
-| S4    | 27/02/2025 | Parallel          | Legat    |
-| S5    | 06/03/2025 | Distributed       | Legat    |
-| S6    | 13/03/2025 | Distributed       | Legat    |
-| S7    | 20/03/2025 | GPU               | Legat    |
-| S8    | 27/03/2025 | GPU               | Legat    |
-| S9    | 03/04/2025 | PDE               | Absil    |
-| S10   | 10/04/2025 | PDE               | Absil    |
-| S11   | 17/04/2025 | PDE               | Absil    |
-| 🥚    | 24/04/2025 | 🐇                | 🐰       |
-| 🥚    | 01/05/2025 | 🐇                | 🐰       |
-| S12   | 08/05/2025 | Power Consumption | Legat    |
-| S13   | 15/05/2025 | Project help      | TAs      |
+| Week  | Wednesday  | Topic             | Thursday   | Topic             | Lecturer |
+|-------|------------|-------------------|------------|-------------------|----------|
+| S1    | 04/02/2025 |                   | 05/02/2025 | C++               | Absil    |
+| S2    | 11/02/2025 |                   | 12/02/2025 | C++               | Absil    |
+| S3    | 18/02/2025 | Parallel          | 19/02/2025 | Parallel          | Legat    |
+| S4    | 25/02/2025 |                   | 26/02/2025 | Parallel          | Legat    |
+| S5    | 04/03/2025 | Distributed       | 05/03/2025 | Distributed       | Legat    |
+| S6    | 11/03/2025 |                   | 12/03/2025 | Distributed       | Legat    |
+| S7    | 18/03/2025 | GPU               | 19/03/2025 | GPU               | Legat    |
+| S8    | 25/03/2025 |                   | 26/03/2025 | GPU               | Legat    |
+| S9    | 01/04/2025 |                   | 02/04/2025 | PDE               | Absil    |
+| S10   | 08/04/2025 |                   | 09/04/2025 | PDE               | Absil    |
+| S11   | 15/04/2025 |                   | 16/04/2025 | PDE               | Absil    |
+| 🥚    | 22/04/2025 | 🐣                | 23/04/2025 | 🐇                | 🐰       |
+| 🥚    | 29/04/2025 | 🐣                | 30/04/2025 | 🐇                | 🐰       |
+| S12   | 06/05/2025 | Oral project      | 07/05/2025 | Power Consumption | Legat    |
+| S13   | 13/05/2025 | Oral project      | 14/05/2025 | Oral project      |          |
 
 ## CECI cluster
 
