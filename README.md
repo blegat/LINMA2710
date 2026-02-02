@@ -25,7 +25,7 @@ This repository contains different resources for the LINMA2710 courses given at 
 | 🥚    | 22/04/2025 | 🐣                | 23/04/2025 | 🐇                | 🐰       |
 | 🥚    | 29/04/2025 | 🐣                | 30/04/2025 | 🐇                | 🐰       |
 | S12   | 06/05/2025 | Oral project      | 07/05/2025 | Power Consumption | Legat    |
-| S13   | 13/05/2025 | Oral project      | 14/05/2025 | Oral project      |          |
+| S13   | 13/05/2025 | Oral project      | 14/05/2025 | ✝️⬆️☁️            |          |
 
 ## CECI cluster
 
