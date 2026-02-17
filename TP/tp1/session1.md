@@ -8,13 +8,14 @@
 
 ## Part 1: SIMD
 
-Consider a scalar discrete dynamical system defined by the map $f(x) = x^2$. We apply this dynamics element-wise to a vector of states (but we keep the notation $f$ by abuse of notation).
+Consider a scalar discrete dynamical system defined by the map $`f(x) = x^2`$. We apply this dynamics element-wise to a vector of states (but we keep the notation $`f`$ by abuse of notation).
 
-Let $ \mathbf{x}_0 = \{\mathbf{x}_0^{(i)}\}_{i=1}^N  \in \mathbb{R}^N$ represent a vector of initial conditions. We compute the system's evolution for 50 steps:
-\[
-    \mathbf{x}_{k+1} = f(\mathbf{x}_k), \quad k=0, \dots, 49
-\]
-where the map $f$ is applied element-wise (by abuse of notation). The final result is stored in $\mathbf{y} = \mathbf{x}_{50}$.
+Let $`x_0 = \{x_0^{(i)}\}_{i=1}^N  \in \mathbb{R}^N`$ represent a vector of initial conditions. We compute the system's evolution for 50 steps:
+
+$$ x_{k+1} = f(x_k), \quad k=0, \dots, 49
+$$
+
+where the map $`f`$ is applied element-wise (by abuse of notation). The final result is stored in $`y = x_{50}`$.
 
 
 #### Exercise 1
@@ -25,10 +26,10 @@ where the map $f$ is applied element-wise (by abuse of notation). The final resu
 - `first.hpp`, 
 - `first.cpp`.
 
-Consider a single step of the dynamics. Given a vector of initial conditions $\mathbf{x}_0 = \{\mathbf{x}_0^{(i)}\}_{i=1}^N  \in \mathbb{R}^N \in \mathbb{R}^N$, we compute the output vector $\mathbf{y} \in \mathbb{R}^N$ defined by the component-wise squaring operation:
-\[
-\mathbf{y}^{(i)} = \left(\mathbf{x}_0^{(i)}\right)^2, \quad i = 1,\dots,N.
-\]
+Consider a single step of the dynamics. Given a vector of initial conditions $`x_0 = \{x_0^{(i)}\}_{i=1}^N  \in \mathbb{R}^N`$, we compute the output vector $`y \in \mathbb{R}^N`$ defined by the component-wise squaring operation:
+
+$$y^{(i)} = \left(x_0^{(i)}\right)^2, \quad i = 1,\dots,N.
+$$
 
 
 1. Start by implementing the missing part of the files `first_no_simd.cpp, first_simd.cpp`. Do you see what could be theoretically vectorized?
@@ -50,10 +51,12 @@ The resulting file is something similar to assembly (though a bit more high-leve
 - `second.cpp`.
 
 Observe the behavior when storing the final state (after 50 steps) for each initial condition. Specifically, let:
+
 $$
-    \mathbf{y}^{(i)} = \mathbf{x}_{50}^{(i)}, \quad i=1,\dots,N,
+    y^{(i)} = x_{50}^{(i)}, \quad i=1,\dots,N,
 $$
-where each $\mathbf{x}_{50}^{(i)}$ is obtained by propagating the dynamics through the map $f$ defined above. Compile and run the file to determine whether you obtain a gain in running time.
+
+where each $`x_{50}^{(i)}`$ is obtained by propagating the dynamics through the map $`f`$ defined above. Compile and run the file to determine whether you obtain a gain in running time.
 ```bash
 clang++ -O3 -march=native second.cpp second_no_simd.cpp second_simd.cpp -o second_demo
 ```
