@@ -18,16 +18,16 @@ header("LINMA2710 - Scientific Computing
 Power Consumption", "P.-A. Absil and B. Legat")
 
 # ╔═╡ f1482d26-4aaf-44a9-b2cc-c672581bea36
-section("Energy consumption")
+md"# Energy consumption"
 
 # ╔═╡ 9ee51ff3-73c7-45eb-a4f2-29b191abbf3a
-frametitle("Primary energy consumption")
+md"## Primary energy consumption"
 
 # ╔═╡ 483e6ccc-114f-4be2-8606-0b6a35b8e513
 html"""<iframe src="https://ourworldindata.org/grapher/global-energy-substitution?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ 68b25c38-7c43-42fd-89ec-a6aede2e467a
-frametitle("The emisson from the power sector not negligible")
+md"## The emisson from the power sector not negligible"
 
 # ╔═╡ 417c20b5-9ec3-48d7-96c6-6d86401dab86
 md"[Total U.S. Greenhouse Gas Emissions by Economic Sector in 2022](https://www.epa.gov/ghgemissions/electric-power-sector-emissions)"
@@ -36,22 +36,22 @@ md"[Total U.S. Greenhouse Gas Emissions by Economic Sector in 2022](https://www.
 img("https://www.epa.gov/system/files/styles/large/private/images/2024-04/electricity-ghg-2024-chart.png?itok=Is4AR6wp")
 
 # ╔═╡ a23fc565-360b-4528-91eb-588a218bedb0
-frametitle("Electricity generation per country")
+md"## Electricity generation per country"
 
 # ╔═╡ 04e552e5-e1b4-4dc4-b6f0-634ccab49039
 html"""<iframe src="https://ourworldindata.org/grapher/electricity-generation?tab=map" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ 362631aa-fc47-4f12-b1c4-b687575738e8
-frametitle("Electricity generation per capita")
+md"## Electricity generation per capita"
 
 # ╔═╡ eb1bdc8e-54c4-4bb4-ac32-d3d3c5a8fb03
 html"""<iframe src="https://ourworldindata.org/grapher/per-capita-electricity-generation?tab=map" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ 5d31609d-0b7c-41ec-ba83-67a7b1ce5e63
-section("Carbon intensity")
+md"# Carbon intensity"
 
 # ╔═╡ 6ebb3eae-c7c6-469c-9710-a98d18b349dc
-frametitle("Intensity per source")
+md"## Intensity per source"
 
 # ╔═╡ e31d6a8c-942e-4a65-a073-96ef250163fb
 md"""
@@ -71,19 +71,19 @@ md"""
 aside(md"[Source](https://mlco2.github.io/codecarbon/methodology.html#carbon-intensity)", v_offset = -130)
 
 # ╔═╡ 91a1971d-1e70-489d-9026-d9312207c112
-frametitle("Share of production by sources")
+md"## Share of production by sources"
 
 # ╔═╡ af7cb311-594a-4f87-b75d-f982bf81da61
 html"""<iframe src="https://ourworldindata.org/grapher/share-elec-by-source?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ 1732b3e0-e2de-4b27-b29f-fb62ff38ba56
-frametitle("Share production by group")
+md"## Share production by group"
 
 # ╔═╡ e01ddf29-9dd4-426c-aa44-65253dfc17bc
 html"""<iframe src="https://ourworldindata.org/grapher/electricity-fossil-renewables-nuclear-line?country=~BEL&tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ e1867b63-647e-4cd3-be2b-3af5bb18f709
-frametitle("Carbon Intensity per country")
+md"## Carbon Intensity per country"
 
 # ╔═╡ 127a5424-c2ad-4157-baf3-ceacc53fcc63
 html"""
@@ -91,10 +91,10 @@ html"""
 """
 
 # ╔═╡ 86c3ecfb-cffc-492b-8f15-3105608a9203
-section("Power consumption of computing")
+md"# Power consumption of computing"
 
 # ╔═╡ 78220d6a-012c-400b-9a02-34772264dc31
-frametitle("RAM consumption")
+md"## RAM consumption"
 
 # ╔═╡ 2ee9c7b0-b647-4f8a-be9f-92ab421176e0
 md"""
@@ -106,7 +106,7 @@ md"""
 """
 
 # ╔═╡ 1d05bb8f-466f-4b48-9c31-d92605282663
-frametitle("CPU consumption : Thermal Design Power")
+md"## CPU consumption : Thermal Design Power"
 
 # ╔═╡ 1e7dc6ea-1b80-4bf2-8a33-c8719bd2c88c
 md"""
@@ -138,7 +138,7 @@ end;
 cpu
 
 # ╔═╡ 09382a24-7e35-45ac-bfbc-46ea15a40590
-frametitle("Power consumption of GPUs")
+md"## Power consumption of GPUs"
 
 # ╔═╡ 98063156-9304-45e7-ad9c-af6dd39187b8
 gpu = let
@@ -157,7 +157,7 @@ end;
 gpu
 
 # ╔═╡ a48b8239-ff4c-4b14-8f6e-88d240bd29ac
-frametitle("Power consumption of a cluster")
+md"## Power consumption of a cluster"
 
 # ╔═╡ 64c9a463-7109-4ef0-9789-4fc885e98be9
 md"""
@@ -180,13 +180,13 @@ end
 aside(md"[Source](https://www.energy.gov/ne/articles/infographic-how-much-power-does-nuclear-reactor-produce)", v_offset = -120)
 
 # ╔═╡ eb328609-d0a0-4984-aba5-00ab7e90c763
-section("Reducing power consumption")
+md"# Reducing power consumption"
 
 # ╔═╡ 584168f4-facb-4ab8-88af-c2e6e46f981e
-frametitle("Break down")
+md"## Break down"
 
 # ╔═╡ 0adbb198-25a5-42ef-8fe0-9d725b671c3a
-frametitle("Dynamic voltage and frequency scaling (DVFS)")
+md"## Dynamic voltage and frequency scaling (DVFS)"
 
 # ╔═╡ d95d4506-0517-4460-a555-3a7767fb5c71
 Foldable(md"If the clock frequency is decreased, does the time performance always get worse ?",
@@ -194,10 +194,10 @@ md"It gets worse if the program is compute-bound but not if it is bandwidth-boun
 )
 
 # ╔═╡ 7bbf3989-cd27-4fc4-9b3c-246e2ae8f7d4
-frametitle("Gating")
+md"## Gating"
 
 # ╔═╡ fc2b703d-d692-470c-a503-335426b50f1a
-frametitle("Reducing the power consumption of your code")
+md"## Reducing the power consumption of your code"
 
 # ╔═╡ 3fbdadde-05a3-4737-899b-3f4e352be7ee
 Foldable(md"""

@@ -45,10 +45,10 @@ Sources
 """
 
 # ╔═╡ 093f3598-0fbc-4236-af12-d02d361bde1b
-section("Introduction")
+md"# Introduction"
 
 # ╔═╡ 2b7036fe-2cd6-45bb-8124-b805b85fd0ba
-frametitle("Context")
+md"## Context"
 
 # ╔═╡ d235c08c-5508-4da1-9863-dcc75775b28d
 hbox([
@@ -62,7 +62,7 @@ hbox([
 ])
 
 # ╔═╡ a3f31283-1054-4abe-9ec3-1e753905b83f
-frametitle("General-Purpose computing on GPU (GPGPU)")
+md"## General-Purpose computing on GPU (GPGPU)"
 
 # ╔═╡ ed8768e0-4b3c-4a13-8533-2219cbd1d1a1
 hbox([
@@ -79,7 +79,7 @@ grid([
 ])
 
 # ╔═╡ 2eba97cf-56c2-457c-b07d-1ec5678476b1
-frametitle("Standard Portable Intermediate Representation (SPIR)")
+md"## Standard Portable Intermediate Representation (SPIR)"
 
 # ╔═╡ 426b14a2-218a-4639-a36a-0188e8f8328a
 md"""
@@ -90,7 +90,7 @@ Similar to LLVM IR : Intermediate representation for accelerated computation.
 img("https://www.khronos.org/assets/uploads/apis/2024-spirv-language-ecosystem.jpg")
 
 # ╔═╡ 2cfe65d7-669f-426e-af8a-473bc5f36318
-frametitle("Hierarchy")
+md"## Hierarchy"
 
 # ╔═╡ adf26494-b700-4867-8c74-f8d520bbd29d
 hbox([
@@ -114,13 +114,13 @@ md"""
 """
 
 # ╔═╡ 11444947-ce05-47c2-8f84-8ed3af3d8665
-frametitle("Memory")
+md"## Memory"
 
 # ╔═╡ f161cf4d-f516-4db8-a54f-c757f50d4d83
 img("https://upload.wikimedia.org/wikipedia/de/d/d1/OpenCL_Memory_model.svg")
 
 # ╔═╡ 2e0ffb06-536b-402c-9ee8-8980c6f08d37
-frametitle("OpenCL Platforms and Devices")
+md"## OpenCL Platforms and Devices"
 
 # ╔═╡ 269eadc2-77ea-4329-ae77-a2df4d2af8cb
 md"""
@@ -139,7 +139,7 @@ md"See also `clinfo` command line tool and `examples/OpenCL/common/device_info.c
 aside(tip(Foldable(md"tl;dr To refresh the list of platforms, you need to quit Julia and open a new session", md"The OpenCL ICD Loader will compute the list of available platforms once the first time it is needed and it will never recompute it again. You can indeed see [here](https://github.com/KhronosGroup/OpenCL-ICD-Loader/blob/d547426c32f9af274ec1369acd1adcfd8fe0ee40/loader/linux/icd_linux.c#L234-L238) it it sets a global `initialized` variable to `true`. This means that, if you do `using pocl_jll` or install the required GPU drivers and look at the list of platforms again from the same Julia sessions, you won't see any changes! There is unfortunately no way to set this `initialized` variable back to `false` so you'll need to restart Julia and make sure you do `using pocl_jll` before using OpenCL. Fortunately, Pluto does this in the right order.")), v_offset = -400)
 
 # ╔═╡ 7c6a4307-610b-461e-b63a-e1b10fade204
-frametitle("Important stats")
+md"## Important stats"
 
 # ╔═╡ 6e8e7d28-f788-4fd7-80f9-1594d0502ad0
 aside((@bind info_platform Select([p => p.name for p in cl.platforms()])), v_offset = -300)
@@ -179,10 +179,10 @@ md"""
 """
 
 # ╔═╡ 5932765a-f69c-4281-80a0-dab181492b98
-section("Examples")
+md"# Examples"
 
 # ╔═╡ 7f24b243-c4d0-4ff7-9289-74eafcd6b617
-frametitle("Vectorized sum")
+md"## Vectorized sum"
 
 # ╔═╡ c9832cda-cb4a-4ffd-b093-ea440e85de20
 hbox([
@@ -204,7 +204,7 @@ vadd_source = code(Example("OpenCL/vadd/vadd.cl"));
 codesnippet(vadd_source)
 
 # ╔═╡ ee9ca02c-d431-4194-ba96-67a855d0f7b1
-frametitle("Mandelbrot")
+md"## Mandelbrot"
 
 # ╔═╡ 3e0f2c68-c766-4277-8e3b-8ada91050aa3
 hbox([
@@ -229,7 +229,7 @@ mandel_source = code(Example("OpenCL/mandelbrot/mandel.cl"));
 codesnippet(mandel_source)
 
 # ╔═╡ 322b070d-4a1e-4e8b-80fe-85b1f69c451e
-frametitle("Compute π")
+md"## Compute π"
 
 # ╔═╡ c3db554a-a910-404d-b54c-5d24c20b9800
 aside((@bind π_platform Select([p => p.name for p in cl.platforms()])), v_offset = -200)
@@ -244,7 +244,7 @@ aside((@bind π_device Select([d => d.name for d in cl.devices(π_platform)])), 
 Foldable(md"How to compute π with a kernel ?", codesnippet(π_code))
 
 # ╔═╡ 948a2fe6-1dfc-4d8a-a754-cff40756fe9d
-frametitle("First element")
+md"## First element"
 
 # ╔═╡ 964e125c-5d09-49c0-bd24-1c25568eb661
 md"Let's write a simple kernel that returns the first element of a vector in global memory."
@@ -265,7 +265,7 @@ first_el_code = code(Example("OpenCL/sum/first_el.cl"));
 codesnippet(first_el_code)
 
 # ╔═╡ c61c2407-b9c7-4eb6-a056-54b69ec01540
-frametitle("Copy to local memory")
+md"## Copy to local memory"
 
 # ╔═╡ 19869f7f-cc98-45d5-aec4-64faa40e5ede
 aside((@bind copy_to_local_platform Select([p => p.name for p in cl.platforms()])), v_offset = -300)
@@ -286,7 +286,7 @@ copy_to_local_code = code(Example("OpenCL/sum/copy_to_local.cl"));
 codesnippet(copy_to_local_code)
 
 # ╔═╡ 8181ffb4-57db-494f-b749-dd937608800b
-section("Reduction on GPU")
+md"# Reduction on GPU"
 
 # ╔═╡ b13fdb24-1593-438a-a282-600750a5731c
 md"""
@@ -299,7 +299,7 @@ The mapping part is easily embarassingly parallel but the reduction is harder to
 """
 
 # ╔═╡ ed441d0c-7f33-4c61-846c-a60195a77f97
-frametitle("Sum")
+md"## Sum"
 
 # ╔═╡ 15418031-5e3d-419a-aa92-8f2b69593c69
 aside((@bind local_platform Select([p => p.name for p in cl.platforms()])), v_offset = -400)
@@ -323,7 +323,7 @@ Foldable(
 )
 
 # ╔═╡ d2de3aca-47e3-48be-8e37-5dd55338b4ce
-frametitle("Blocked sum")
+md"## Blocked sum"
 
 # ╔═╡ b275155c-c876-4ec0-b2e4-2c87f248562f
 Foldable(
@@ -358,7 +358,7 @@ Foldable(
 )
 
 # ╔═╡ 8e9911a9-337e-49ab-a6ef-5cbffea8b227
-frametitle("Back to SIMD")
+md"## Back to SIMD"
 
 # ╔═╡ 9ed8f1ba-8c9b-4d9d-b73c-66b327dc13a5
 md"""
@@ -372,7 +372,7 @@ md"""
 """
 
 # ╔═╡ d8943644-3795-4761-8021-8dafe7c358a9
-frametitle("Warp divergence")
+md"## Warp divergence"
 
 # ╔═╡ fca83c6f-bb3b-4b30-9050-fc365be9f3ec
 md"Suppose a kernel is executed on a nvidia GPU with `global_size` threads. How much time will it take to execute it ?"
@@ -410,7 +410,7 @@ There are 64 threads so they are on two different warps. All the threads of the 
 md"Are the threads that are still active in the same warp for you sum example ?"
 
 # ╔═╡ 48ae3222-cf66-487f-9d9e-09ae601d425b
-frametitle("Warp diversion for our sum")
+md"## Warp diversion for our sum"
 
 # ╔═╡ fff22d71-2732-4206-8bed-26dee00d6c48
 Foldable(
@@ -423,13 +423,13 @@ No. First, we need to use a `barrier` until the end so it will not be good for p
 md"How should we change the sum to keep the working threads on the same warp ?"
 
 # ╔═╡ 954d5f75-e7cd-4d8c-b07a-018b1f5a8b70
-frametitle("No warp divergence")
+md"## No warp divergence"
 
 # ╔═╡ da8ffc39-d7ca-46da-81c8-f172c853427c
 md"Now the same warp is used for all threads so we don't need `barrier` and it frees other warps to stay idle (reducing power consumption) or do other tasks."
 
 # ╔═╡ 8a999999-0312-4d38-bdc4-2e4b569165a4
-frametitle("Reordered local sum")
+md"## Reordered local sum"
 
 # ╔═╡ d7147373-238f-48c4-9dbd-6be3d6290fab
 aside((@bind reordered_local_platform Select([p => p.name for p in cl.platforms()])), v_offset = -400)
@@ -450,7 +450,7 @@ reordered_local_sum_code = code(Example("OpenCL/sum/reordered_local_sum.cl"));
 codesnippet(reordered_local_sum_code)
 
 # ╔═╡ dede8676-17d8-4cb4-9673-dcb00df7c9e7
-frametitle("SIMT sum")
+md"## SIMT sum"
 
 # ╔═╡ 1d84c896-5208-4d50-9fdd-b82a2233f834
 Foldable(md"Why don't we check any condition on `item`, aren't some thread computing data that won't be used ?", md"As a SIMT unit is the smallest unit of computation, even if only on thread is executing, it's all SIMT unit will be executing anyway. So it's better to save the evaluation of the `if` condition if all the threads are in the same SIMT unit anyway.")
@@ -483,7 +483,7 @@ simt_code = code(Example("OpenCL/sum/warp.cl"));
 codesnippet(simt_code)
 
 # ╔═╡ 0e3a4f79-9d07-46cb-8368-a693304334c1
-frametitle("Unrolled sum")
+md"## Unrolled sum"
 
 # ╔═╡ 2ab1717e-afc2-4b1a-86e6-e64143546a94
 Foldable(
@@ -513,7 +513,7 @@ Foldable(
 )
 
 # ╔═╡ 09f6479a-bc27-436c-a3b3-12b84e084a86
-frametitle("Utils")
+md"## Utils"
 
 # ╔═╡ e1741ba3-cc15-4c0b-96ac-2b8621be2fa6
 _pretty_time(x) = BenchmarkTools.prettytime(minimum(x))

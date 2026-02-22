@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.6
+# v0.20.21
 
 using Markdown
 using InteractiveUtils
@@ -30,7 +30,7 @@ header("LINMA2710 - Scientific Computing
 Shared-Memory Multiprocessing", "P.-A. Absil and B. Legat")
 
 # ╔═╡ 3887824b-7c7f-4c24-bf6d-7a55ed7adc89
-section("Memory layout")
+md"# Memory layout"
 
 # ╔═╡ dbe9c6d8-611e-46f9-9a8e-2b3647e813fa
 begin
@@ -47,7 +47,7 @@ $ lstopo
 ```", v_offset = -200)
 
 # ╔═╡ 37d9b5f0-48b6-4ff3-873d-592230687995
-frametitle("Hierarchy")
+md"## Hierarchy"
 
 # ╔═╡ 138caa9b-1d53-4c01-a3b9-c1a097413736
 img(URL("https://github.com/VictorEijkhout/TheArtOfHPC_vol1_scientificcomputing/raw/refs/heads/main/booksources/graphics/hierarchy.jpg"))
@@ -61,7 +61,7 @@ where ``\alpha`` is the start up time and ``\beta`` is the inverse of the bandwi
 """
 
 # ╔═╡ a32ba8f2-a9c9-41c6-99b4-577f0823bd9f
-frametitle("Cache lines and prefetch")
+md"## Cache lines and prefetch"
 
 # ╔═╡ 02be0de6-70dc-4cf4-b630-b541a304eecd
 img("https://github.com/VictorEijkhout/TheArtOfHPC_vol1_scientificcomputing/raw/refs/heads/main/booksources/graphics/prefetch.jpeg")
@@ -76,7 +76,7 @@ This shows the importance of *data locality*. An algorithm performs better if it
 """
 
 # ╔═╡ f26f0a70-c16b-491d-b4cf-45ca146727c2
-frametitle("Illustration with matrices")
+md"## Illustration with matrices"
 
 # ╔═╡ 81da94b8-1bbf-4773-ba53-d229452cef75
 mat = rand(Cfloat, 2^8, 2^8)
@@ -128,7 +128,7 @@ c_sum(x::Matrix{Cfloat}) = ccall(("sum", sum_matrix_lib), Cfloat, (Ptr{Cfloat}, 
 aside(sum_matrix_code, v_offset = -470)
 
 # ╔═╡ c0bda86a-136b-45ca-84ba-7365c367d265
-frametitle("Arithmetic intensity")
+md"## Arithmetic intensity"
 
 # ╔═╡ 11b1c6a8-3918-4dda-9028-17af2d6c44c4
 md"""
@@ -148,7 +148,7 @@ This piecewise linear function in ``a`` gives the *roofline model*.
 """
 
 # ╔═╡ 6e8865f5-84ad-4083-bb19-57ad1b561fab
-frametitle("The roofline model")
+md"## The roofline model"
 
 # ╔═╡ d8238145-9787-40f0-a151-1ef73d8c97ee
 hbox([
@@ -165,7 +165,7 @@ md"""
 """
 
 # ╔═╡ 9e78f2a1-0811-4f61-957d-ad4718430f7f
-frametitle("Cache hierarchy for a multi-core CPU")
+md"## Cache hierarchy for a multi-core CPU"
 
 # ╔═╡ 6f70144e-5240-41ef-a719-8a8942e18fee
 img("https://github.com/VictorEijkhout/TheArtOfHPC_vol1_scientificcomputing/raw/refs/heads/main/booksources/graphics/cache-hierarchy.jpg")
@@ -176,7 +176,7 @@ md"""
 """
 
 # ╔═╡ e7445ed8-cbf7-475d-bd67-3df8d9015de2
-section("Parallel sum")
+md"# Parallel sum"
 
 # ╔═╡ a144f991-3af4-4f88-a7e8-c1f3e9d7f7e2
 aside(md"""
@@ -306,10 +306,10 @@ c_sum(x::Vector{Cfloat}; num_threads = 1, verbose = 0) = ccall(("sum", sum_lib),
 @time c_sum(vec; num_threads, verbose = 1)
 
 # ╔═╡ 1f45bab8-afb7-4cd2-8a37-1f258f37ad8f
-frametitle("Many processors")
+md"## Many processors"
 
 # ╔═╡ db24839c-eb42-4d5c-8545-3714abc01bc5
-frametitle("Benchmark")
+md"## Benchmark"
 
 # ╔═╡ d718f117-41da-42ff-9bcd-8bef0e7e6974
 md"""
@@ -392,10 +392,10 @@ many_sum(x::Vector{Cfloat}; base_num_threads = 1, factor = 2, verbose = 0) = cca
 @btime many_sum($many_vec; base_num_threads, factor)
 
 # ╔═╡ f95dd40b-8c56-4e10-abbc-3dbb58148e1f
-section("Amdahl's law")
+md"# Amdahl's law"
 
 # ╔═╡ 2a1f3d29-4d6b-4634-86f3-4ecd4a7821a2
-frametitle("Speed-up and efficency")
+md"## Speed-up and efficency"
 
 # ╔═╡ b2b3beda-c8bf-4616-b1bd-bdd907d11636
 hbox([
@@ -417,7 +417,7 @@ Let ``T_p`` bet the time with ``p`` processes
 ]; style = Dict("align-items" => "center", "justify-content" => "center"))
 
 # ╔═╡ b26ab400-ce89-4a76-ad48-464ac6821dd2
-frametitle("Amdahl's law")
+md"## Amdahl's law"
 
 # ╔═╡ 4b7a62a4-1e88-410b-8549-3021f6cdf6da
 md"""
@@ -434,7 +434,7 @@ S_p &= \frac{1}{F_s + F_p/p} & E_p &= \frac{1}{pF_s + F_p}\\
 """
 
 # ╔═╡ e83baa29-ad2b-4ffc-99f5-cdbca9e31233
-frametitle("Application to parallel sum")
+md"## Application to parallel sum"
 
 # ╔═╡ f7da896d-089c-4430-b82c-db86c380b171
 md"""

@@ -30,10 +30,10 @@ header("LINMA2710 - Scientific Computing
 Distributed Computing with MPI", "P.-A. Absil and B. Legat")
 
 # ╔═╡ 5a566137-fbd1-45b2-9a55-e4aded366bb3
-section("Single Program Multiple Data (SPMD)")
+md"# Single Program Multiple Data (SPMD)"
 
 # ╔═╡ a6c337c4-0c81-4463-ad4f-9a4528d953ab
-frametitle("Message Passing Interface (MPI)")
+md"## Message Passing Interface (MPI)"
 
 # ╔═╡ c04bcc96-e5fe-4d6e-a12e-40dcde58c62e
 md"""
@@ -45,7 +45,7 @@ md"""
 """
 
 # ╔═╡ cf799c26-1cea-4b38-9a15-8497813bd668
-frametitle("MPI basics")
+md"## MPI basics"
 
 # ╔═╡ 6d2b3dbc-0686-49f0-904a-56c3ce63b4dd
 hbox([
@@ -90,13 +90,13 @@ Foldable(
 )
 
 # ╔═╡ 273ad3a6-cb32-49bb-8702-fdaf8597e812
-frametitle("Different processes may be on the same node")
+md"## Different processes may be on the same node"
 
 # ╔═╡ 4e32f7fb-cd5a-4190-9c92-ba4029313475
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol2_parallelprogramming/refs/heads/main/booksources/graphics/mpi-node2.png")
 
 # ╔═╡ 82230d6c-25ce-4d12-8842-e0651fc4b143
-frametitle("Processor name identifies the node")
+md"## Processor name identifies the node"
 
 # ╔═╡ 7d9ac5f9-39bf-4052-ad8a-ac0fec15c64a
 md"""
@@ -110,7 +110,7 @@ md"`num_processes` = $(@bind procname_num_processes Slider(2:8, default = 2, sho
 compile_and_run(Example("MPI/procname.c"); mpi = true, verbose = 1, show_run_command = true, num_processes = procname_num_processes)
 
 # ╔═╡ 21b6133f-db59-4885-9b3d-331c3d6ef306
-frametitle("Compiling")
+md"## Compiling"
 
 # ╔═╡ 35ba1eea-56ae-4b74-af96-21ec5a93c455
 md"""
@@ -124,13 +124,13 @@ run(`mpicc -show`)
 run(`mpic++ -show`)
 
 # ╔═╡ 40606ee3-38cc-4123-9b86-b774bf89e499
-section("Collectives")
+md"# Collectives"
 
 # ╔═╡ b94cd399-0370-49e9-a522-056f3af22955
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol2_parallelprogramming/refs/heads/main/booksources/graphics/collectives.jpg")
 
 # ╔═╡ 9b4cae31-c319-444e-98c8-2c0bfc6dfa0c
-frametitle("Broadcast")
+md"## Broadcast"
 
 # ╔═╡ 8b83570a-6982-47e5-a167-a6d6afee0f7d
 hbox([
@@ -169,7 +169,7 @@ After second communication (1 → 2 and 3 → 4 at the same time):
 )
 
 # ╔═╡ 7b1d26c6-9499-4e44-84c8-c272737a175e
-frametitle("Gather")
+md"## Gather"
 
 # ╔═╡ fc43b343-79cd-4342-8d80-8ea72cf34942
 hbox([
@@ -228,7 +228,7 @@ In total, it is ``2\alpha + 3\beta n/4``. In general, we have
 )
 
 # ╔═╡ ad3559d1-6180-4eaa-b97d-3c1f10f036b9
-frametitle("Reduce")
+md"## Reduce"
 
 # ╔═╡ c420ad25-6af1-4fb4-823a-b6bbd4e10f7f
 hbox([
@@ -263,7 +263,7 @@ Then second communication (3 → 1)
 )
 
 # ╔═╡ 4fdb4cd6-a794-4b14-84b0-72f484c6ea86
-frametitle("All gather")
+md"## All gather"
 
 # ╔═╡ a258eec9-f4f6-49bd-8470-8541836f5f6b
 hbox([
@@ -329,7 +329,7 @@ In total, we have complexity
 )
 
 # ╔═╡ e119c2d3-1e24-464f-b812-62f28c00a913
-frametitle("Reduce scatter")
+md"## Reduce scatter"
 
 # ╔═╡ dbc19cbb-1349-4904-b655-2452aa7e2452
 vbox([
@@ -397,7 +397,7 @@ This is better than the approaches combining existing collectives above since we
 )
 
 # ╔═╡ 60bc118f-6795-43f9-97a2-865fd1704895
-frametitle("Allreduce")
+md"## Allreduce"
 
 # ╔═╡ 0d69e94b-492a-4acc-adba-a2126b871724
 vbox([
@@ -428,10 +428,10 @@ This second approach is faster for large ``p`` since we removed ``\log_2(p)`` in
 )
 
 # ╔═╡ a1b2d090-d498-4d5d-90a0-8cdc648dc833
-section("Distributed sum")
+md"# Distributed sum"
 
 # ╔═╡ a771f33f-7ed1-41aa-bee0-c215729a8c8d
-frametitle("Distributed vector")
+md"## Distributed vector"
 
 # ╔═╡ 370f0f20-e373-4028-bca1-83e93678cbcb
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol2_parallelprogramming/refs/heads/main/booksources/graphics/mpi-array.png")
@@ -440,7 +440,7 @@ img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol2_parallelp
 Foldable(md"How to collect the partial sums ?", md"`MPI_Reduce`")
 
 # ╔═╡ 7cf59087-efca-4f03-90dc-f2acefdcbc8a
-frametitle("Let's try it")
+md"## Let's try it"
 
 # ╔═╡ 4788d8b4-2efa-4489-80c3-71f405513644
 md"`num_processes` = $(@bind sum_num_processes Slider(2:8, default = 2, show_value = true))"
@@ -452,7 +452,7 @@ compile_and_run(Example("MPI/mpi_sum.c"), mpi = true, num_processes = sum_num_pr
 aside(Foldable(md"Why is it the first process that gets the sum ?", md"We gave 0 to the 6th argument of `MPI_Reduce`, this decides which node gets the sum."), v_offset = -100)
 
 # ╔═╡ 79b405a5-54b5-4727-a0cd-b79522ad109f
-section("Point-to-point")
+md"# Point-to-point"
 
 # ╔═╡ d2104fbd-ba22-4501-b03a-8809271d598b
 frametitle(md"Blocking communication")
@@ -471,7 +471,7 @@ The network cannot buffer the whole message (unless it is short). The sender nee
 """
 
 # ╔═╡ 34a10003-2c32-4332-b3e6-ce70eec0cbbe
-frametitle("Example")
+md"## Example"
 
 # ╔═╡ ce7bf747-7116-4e76-9004-f234317046c3
 compile_and_run(Example("MPI/mpi_bench1.c"), mpi = true, num_processes = 2)
@@ -482,7 +482,7 @@ md"No, the time also includes the time that process 0 has to wait until process 
 ), v_offset = -500)
 
 # ╔═╡ c3c848ff-526a-450d-9b1c-5d9d3ccccf28
-frametitle("Eager vs rendezvous protocol")
+md"## Eager vs rendezvous protocol"
 
 # ╔═╡ 67dee339-98b4-4714-88b2-8098a13235f2
 md"""
@@ -498,7 +498,7 @@ To force the rendezvous protocol, use `MPI_Ssend`.
 """
 
 # ╔═╡ 32f740e7-9338-4c42-8eaf-ce8022412c50
-frametitle("Nonblocking communication")
+md"## Nonblocking communication"
 
 # ╔═╡ 8a527c17-bf2b-4e6b-937f-ef3a269c5112
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol2_parallelprogramming/refs/heads/main/booksources/graphics/send-nonblocking.jpeg", :height => "200pt")
@@ -510,13 +510,13 @@ md"""
 """
 
 # ╔═╡ 568057f5-b0b8-4225-8e4b-5eec911a52ef
-frametitle("Example")
+md"## Example"
 
 # ╔═╡ 26aa369f-e5c7-4fe5-8b6b-903f4f4e91ba
 compile_and_run(Example("MPI/mpi_bench2.c"), mpi = true, num_processes = 2)
 
 # ╔═╡ a79c410a-bebf-434c-9730-568e0ff4f4c7
-section("Consortium des Équipements de Calcul Intensif (CÉCI)")
+md"# Consortium des Équipements de Calcul Intensif (CÉCI)"
 
 # ╔═╡ 39f48c25-6efb-4ff2-aedc-9d3e722dad24
 md"""
@@ -621,7 +621,7 @@ $list_2
 """
 
 # ╔═╡ 51d70f9a-cd67-44b9-8fd1-5ab70b526c7a
-frametitle("Launching a job")
+md"## Launching a job"
 
 # ╔═╡ 944d827e-bc6a-4de8-b959-5fde8790bedc
 md"""
@@ -649,7 +649,7 @@ $(Foldable(md"Why are they all on same node ?", md"We are on the *login node*, w
 """)
 
 # ╔═╡ beee4908-d519-413a-964f-149bb82cdbb8
-frametitle("Slurm")
+md"## Slurm"
 
 # ╔═╡ d8bb1d43-bf42-4a09-bdeb-5db406ef1ccd
 hbox([Div(md"""
@@ -671,7 +671,7 @@ See [CÉCI documentation](https://support.ceci-hpc.be/doc/_contents/QuickStart/S
 ])
 
 # ╔═╡ b540d5e3-6686-479a-b2c7-c1f65b85b6ba
-frametitle("Profiling with NVIDIA Nsight Systems")
+md"## Profiling with NVIDIA Nsight Systems"
 
 # ╔═╡ 091dd042-580b-4fda-8086-e048663aed6c
 md"""
@@ -688,10 +688,10 @@ md"""
 """
 
 # ╔═╡ 9a100ccf-1ad3-4d2c-bbe0-e297969eb69e
-section("Topology")
+md"# Topology"
 
 # ╔═╡ 9612a1ef-fd3a-4a58-87b0-b2255ac86331
-frametitle("Graph diameter")
+md"## Graph diameter"
 
 # ╔═╡ 98392c40-6542-4a26-8552-c0960bbaa6a6
 md"""
@@ -706,7 +706,7 @@ md"""
 definition("Graph diameter", md"*Graph diameter* is ``d(G) := \max_{u, v \in V} d(G, u, v)``")
 
 # ╔═╡ c253bb24-ad76-4b58-8dfc-7dc2576e3db5
-frametitle("Bisection bandwidth")
+md"## Bisection bandwidth"
 
 # ╔═╡ 1b617828-e2b2-4a94-a120-59fa533d3e11
 md"""
@@ -751,7 +751,7 @@ These differences allow Min-Cut to be solvable in polynomial time.
 """)
 
 # ╔═╡ 360091c4-d3a0-462d-abcf-b9bbb9480871
-frametitle("Linear array")
+md"## Linear array"
 
 # ╔═╡ 3dc860be-016d-49ee-8535-7d9457c70f85
 Foldable(md"What is the graph diameter ?", md"``|V| - 1`` if ``u`` and ``v`` are extreme points of the array")
@@ -789,7 +789,7 @@ end;
 path(false)
 
 # ╔═╡ 7d37fbea-baa3-43ec-b003-a4707017a4cf
-frametitle("Rings")
+md"## Rings"
 
 # ╔═╡ fc705b81-7310-44cc-ad9f-dc2cf8a9b645
 path(true)
@@ -804,7 +804,7 @@ $(img("https://upload.wikimedia.org/wikipedia/commons/5/51/Bisected_ring.jpg", :
 """)
 
 # ╔═╡ 2257220c-6f0e-4edf-9fea-7e388b84df9b
-frametitle("Multidimensional array and torus")
+md"## Multidimensional array and torus"
 
 # ╔═╡ 39b055f5-3dbf-403c-b21e-210e3813d8b0
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol1_scientificcomputing/refs/heads/main/booksources/graphics/torus.jpeg")
@@ -827,7 +827,7 @@ md"It is 1 for ``d = 1``, ``n`` for ``d = 2`` and ``n^2`` for ``d = 3``. In gene
 """)
 
 # ╔═╡ 2c84bd84-b54d-4594-b9f8-35db2124d7e8
-frametitle("Hypercube")
+md"## Hypercube"
 
 # ╔═╡ 4309dc43-aeb8-4ec7-94fe-0e320b784349
 md"Special case of multidimensional array"
@@ -847,7 +847,7 @@ $(img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol1_scienti
 )
 
 # ╔═╡ e796b093-9c1d-4656-9acb-918de53f7e4d
-frametitle("Crossbar")
+md"## Crossbar"
 
 # ╔═╡ d04b9af5-f004-4ca4-b1c9-2c86d46cb37d
 md"""
@@ -871,7 +871,7 @@ md"""
 """)
 
 # ╔═╡ 143dca7c-f9a4-472a-a4bc-4578e4e8413b
-frametitle("Tree")
+md"## Tree"
 
 # ╔═╡ e4d1de1d-d57a-48ab-ad7a-c09b427daa03
 Foldable(md"What is the diameter and bisection width of ``n`` computer nodes ?",
@@ -909,7 +909,7 @@ end;
 tree()
 
 # ╔═╡ 21d507f6-02f8-4f8b-84f1-bcb84731df66
-frametitle("Fat-tree")
+md"## Fat-tree"
 
 # ╔═╡ 4aac6ab5-053a-4f60-9e2e-e8d61ff0cecb
 img("https://raw.githubusercontent.com/VictorEijkhout/TheArtOfHPC_vol1_scientificcomputing/refs/heads/main/booksources/graphics/fattree5.jpg", :width => "500pt")
@@ -926,7 +926,7 @@ Number of edges is ``n\log_2(n)`` and bisection width is ``n/2``.
 """)
 
 # ╔═╡ 10a1b3a7-21c7-4f97-93e1-006ad3aea40d
-frametitle("Butterfly")
+md"## Butterfly"
 
 # ╔═╡ f7f097cb-d7bd-49eb-a030-ac26f8f61a67
 md"Fat-tree need large switches, alternative is butterfly network:"
