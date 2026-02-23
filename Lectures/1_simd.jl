@@ -326,13 +326,58 @@ f(a, b) = (a[1] + b[1], a[2] + b[2], a[3] + b[3], a[4] + b[4])
 @code_llvm debuginfo=:none f((1, 2, 3, 4), (5, 6, 7, 8))
 
 # ╔═╡ 594cb702-35ff-4932-93cb-8cdbd53b7e27
-frametitle("Inspection with godbolt Compiler Explorer")
+md"## Inspection with godbolt Compiler Explorer"
 
 # ╔═╡ aa153cd9-0118-4f2a-802e-fae8c302ad4b
 html"""<iframe width="800px" height="400px" src="https://godbolt.org/e#z:OYLghAFBqd5QCxAYwPYBMCmBRdBLAF1QCcAaPECAMzwBtMA7AQwFtMQByARg9KtQYEAysib0QXACx8BBAKoBnTAAUAHpwAMvAFYTStJg1AB9U8lJL6yAngGVG6AMKpaAVxYMQAJlIOAMngMmABy7gBGmMQgAGykAA6oCoS2DM5uHt7xickCAUGhLBFRsZaY1ilCBEzEBGnunj6l5QKV1QR5IeGRMRZVNXUZjX3tgZ2F3dEAlBaorsTI7BwAbqh46ADU/KgQgQTrTFyk67v7PseC62GH53thZycAVACCk%2BsApADsAEJvGk/r6yebwArF8NCCACLvADMUIO6we6wg8LeXi%2Bly4kze0J%2BfwBQNBXEhMLhXgRSKYZNR6LuWJxv3%2BgJBXy8xOxcK45ORnOpGLpuMZBK%2B0LZsNOXMp7zRly8/IZnwhHGmtE4wN4ng4WlIqE4jnWClm80wUuhPFIBE0SumAGsQNDJAA6SQADi8Gkk0WiGmB0I%2Bzud0hVHEk6st2s4vAUIA05st0zgsCQaBYcTokXIlGTqfoUWQyAMRi4AE4uDGaLQCJEoxAwmGwoFqgBPThm%2BvMYiNgDyYW0ZQt3F4ybYgk7DFozc1vCwYVcwEcYloUYHpCwLEMwHEk5XeGIfbwS0wS61mFUZVclZbvF2mCDWtoeDCxCbziwl/NxDwLDfB%2BIYUSmAhTA1yMe8jDjPgDGABQADU8EwAB3Ts4kYN9%2BEEEQxHYKQZEERQVHULddEOAsTDMfQHyjSBplQOIbAEJcAFpO2hdYGLXJZVC8XhUB/D8sEoiBpiaOjPAgBwBgaHx/FGAoihAD4siSESJO8HwEiUlIOlk7oFOEiphhUrxGhvPcWmGLSuiiXSDJcepVN6NoLPGKyhMNBYJGVVVQy3HUOHWVRnWiBjokkdZ83XdZiwdLgHQ0JFcEIEgTUxXh%2By0SYbTtaEHWhaJnSkaEi2dItgQ%2BaFiuBfROBDUgv1LGMNS1XzI2jWNJ3jGBEBQVAUzTMgKAgLM%2BpQYApB8ctK2Iatay3NsmzfOaO27XtrDfIdGAIUdxzDadZ3nWhFzfVd103LV8F3coDyPXgTzPC9l2vW9eHvR9nwwRYzQID8v2XH8/yUQDgI3QJQHaiCmCg2CEKQlDlzQ4RRHEbD4bwtQw10HwSJAUxjHMF6BOo2iUkY5jWPYzjuN4tZD3gISTOaUTxNsjJDmk/JLL0dSclSZnPEOLmRKcuTDj0sy2hUkX6ZE1oaiF7oRZs9I%2BYc2WZI5zEZjmdyNaDNVSEa7jOH8wLgtC4A80ix0yQgBKiGIZLJlSuNMuhLxoskIqNCLSRvXdD4vAUoMaoN8MOBamM0qtKqOC42qJA0Bqw2atr0umH8kjsSQgA%3D%3D"></iframe>"""
 
 # ╔═╡ ea10cb8a-a95e-400c-be86-1633a3833ec5
 md"[Example source](https://llvm.org/docs/Vectorizers.html)"
+
+# ╔═╡ bf519e7e-04d8-4efb-a29c-65ced158988e
+md"# Interleaving"
+
+# ╔═╡ 48422080-e3b5-4e3c-bbc9-1f61ccf15915
+md"""
+With `interleave_count(2)` and
+* `-O1`, we see `!{!"llvm.loop.interleave.count", i32 2}` at the end but it hasn't ben applied
+* `-O2`, we see the interleaving is applied
+"""
+
+# ╔═╡ dabe87b7-403a-464b-b2bf-1c2bf4cecd41
+function c_add_code(T; loop_pragmas = String[], openmp_pragmas = String[], pragmas = String[])
+	code = """
+void add($T *a, int length) {
+    $T total = 0;
+"""
+	for pragma in loop_pragmas
+		code *= """
+	#pragma clang loop $pragma
+"""
+	end
+	for pragma in openmp_pragmas
+		code *= """
+	#pragma omp $pragma
+"""
+	end
+	code *= """
+    for (int i = 0; i < length; i++) {
+"""
+	for pragma in pragmas
+		code *= """
+	    #pragma $pragma
+"""
+	end
+	code *= """
+        a[i] = a[i] + 1;
+    }
+    return;
+}"""
+	return CCode(code)
+end;
+
+# ╔═╡ d9277160-4c3d-4069-a4af-02913748d727
+md"## Why interleaving ?"
 
 # ╔═╡ 7dd1fa44-ed35-4abe-853f-58fe4085b441
 md"## Further readings"
@@ -343,6 +388,8 @@ Slides inspired from:
 * [SIMD in Julia](https://www.youtube.com/watch?v=W1hXttRmuks&t=337s)
 * [Demystifying Auto-vectorization in Julia](https://www.juliabloggers.com/demystifying-auto-vectorization-in-julia/)
 * [Auto-Vectorization in LLVM](https://llvm.org/docs/Vectorizers.html)
+* [Information on processor architecture](https://uops.info)
+* [Advanced books on optimization](https://uops.info/)
 """
 
 # ╔═╡ 9d86cb9c-396c-4357-a336-2773ee84dc2e
@@ -382,6 +429,22 @@ cpp_sum_code_for_llvm = cpp_sum_code(
 
 # ╔═╡ 972c1194-9d5f-438a-964f-176713bab912
 aside(cpp_sum_code_for_llvm, v_offset = -700)
+
+# ╔═╡ 7f91d143-5137-4894-9aa7-8c709619e9d1
+aside(options, v_offset = -260)
+
+# ╔═╡ 04753c25-d003-4515-9b51-2552fa1203db
+c_add_code_for_llvm = c_add_code(
+	sum_type,
+	pragmas = filter(!isequal("No pragma"), [sum_pragma_fastmath]),
+	loop_pragmas = filter(!isequal("No pragma"), [sum_pragma_vectorize, sum_pragma_interleave]),
+);
+
+# ╔═╡ f2e58009-de7b-4310-b4f6-07a5e303bcc0
+emit_llvm(c_add_code_for_llvm, cflags = [sum_opt; sum_flags]);
+
+# ╔═╡ ac232ad3-669d-4aec-8a50-ce5185adb374
+aside(c_add_code_for_llvm, v_offset = -480)
 
 # ╔═╡ 174407b5-75be-4930-a476-7f2bfa35cdf0
 function c_sum_code(T; loop_pragmas = String[], openmp_pragmas = String[], pragmas = String[])
@@ -499,6 +562,21 @@ end
 
 # ╔═╡ b348eb57-446b-42ec-9292-d5a77cd26e0c
 img("https://www.karlrupp.net/wp-content/uploads/2018/02/42-years-processor-trend.png")
+
+# ╔═╡ 42fcfc12-fb25-41fe-9ae0-3b76e7e24566
+TwoColumn(
+	md"""
+```
+load a[i]
+load 
+```
+
+Execution ports
+* Arithmetic Logic Unit (ALU)
+* Address Generation Unit (AGU)
+""",
+	img("https://uops.info/pipeline.png"),
+)
 
 # ╔═╡ 5d84df6f-fb95-48df-bb3b-a8a9e7adb8aa
 begin
@@ -1510,10 +1588,10 @@ version = "4.1.0+0"
 # ╟─4d0ba8c4-2d94-400e-a106-467db6e3fc0c
 # ╟─403bb0f1-5514-486e-9f81-fba9d6031ee1
 # ╟─b9ad74c5-d99d-4129-afa2-4ff62eedf796
-# ╟─e6fac999-9f54-42f9-a1b7-3fd883b891ab
-# ╟─a7421d94-6966-4b71-b8c2-7553b209f146
-# ╟─bc8bc245-6c10-4759-a85b-b407ef016c60
-# ╟─9cfd52a7-f5b9-424a-b1a4-b81f63e3b30c
+# ╠═e6fac999-9f54-42f9-a1b7-3fd883b891ab
+# ╠═a7421d94-6966-4b71-b8c2-7553b209f146
+# ╠═bc8bc245-6c10-4759-a85b-b407ef016c60
+# ╠═9cfd52a7-f5b9-424a-b1a4-b81f63e3b30c
 # ╟─41d1448e-72c9-431c-a614-c7922e35c883
 # ╟─69bdd3ba-dbeb-4ef8-acb7-6314bee13c8c
 # ╠═7ab127df-8afd-4ebe-8403-9ca3bcc2f8e3
@@ -1530,12 +1608,21 @@ version = "4.1.0+0"
 # ╟─594cb702-35ff-4932-93cb-8cdbd53b7e27
 # ╟─aa153cd9-0118-4f2a-802e-fae8c302ad4b
 # ╟─ea10cb8a-a95e-400c-be86-1633a3833ec5
+# ╟─bf519e7e-04d8-4efb-a29c-65ced158988e
+# ╟─f2e58009-de7b-4310-b4f6-07a5e303bcc0
+# ╟─48422080-e3b5-4e3c-bbc9-1f61ccf15915
+# ╟─ac232ad3-669d-4aec-8a50-ce5185adb374
+# ╟─7f91d143-5137-4894-9aa7-8c709619e9d1
+# ╟─04753c25-d003-4515-9b51-2552fa1203db
+# ╟─dabe87b7-403a-464b-b2bf-1c2bf4cecd41
+# ╟─d9277160-4c3d-4069-a4af-02913748d727
+# ╟─42fcfc12-fb25-41fe-9ae0-3b76e7e24566
 # ╟─7dd1fa44-ed35-4abe-853f-58fe4085b441
 # ╟─fcf5c210-c100-4534-a65b-9bee23c518da
 # ╟─9d86cb9c-396c-4357-a336-2773ee84dc2e
 # ╟─8d24ad58-fd1a-43f2-b1ce-ab02dd3a5df6
 # ╟─174407b5-75be-4930-a476-7f2bfa35cdf0
-# ╟─d3c2d2b7-8f23-478b-b36b-c92552a6cf01
+# ╠═d3c2d2b7-8f23-478b-b36b-c92552a6cf01
 # ╠═8d89bdcb-8bc8-4cff-99a2-9b2f7fccb706
 # ╠═5d84df6f-fb95-48df-bb3b-a8a9e7adb8aa
 # ╠═d4ca3ff1-5676-45d5-9c96-4f4a5d24bd3c
