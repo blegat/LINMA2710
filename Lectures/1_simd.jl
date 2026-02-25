@@ -377,7 +377,61 @@ void add($T *a, int length) {
 end;
 
 # ╔═╡ d9277160-4c3d-4069-a4af-02913748d727
-md"## Why interleaving ?"
+md"## Modern CPU architectures"
+
+# ╔═╡ f39ff087-41f8-40d0-bf65-3633c486f2af
+md"## Without unrolling"
+
+# ╔═╡ b8a86895-4605-41a1-8297-225052d80876
+md"## Interleaving allowed by unrolling"
+
+# ╔═╡ cbe51e09-dadd-4488-bbac-5bcb116aef54
+md"""```
+loop2:
+  load  r1 ← a[i]
+  load  r2 ← b[i]
+  load  r4 ← a[i+1]
+  load  r5 ← b[i+1]
+  add   r3 ← r1 + r2
+  add   r6 ← r4 + r5
+  store c[i] ← r3
+  store c[i+1] ← r6
+  add   i ← i + 2
+  cmp   i, N-1
+  jl  #loop2
+  cmp   i, N
+  jl  #loop ; tail case, no unrolling
+```
+
+| Cycle |    ALU    |  ALU   | Load   |  Load  |   Store   |  Jump  |
+|-------|-----------|--------|--------|--------|-----------|--------|
+|   1   |           |        | `a[i]` | `b[i]` |           |        |
+|   2   |           |        | `a[i+1]` | `b[i+1]` |           |        |
+|   3-4 |           |        |  L1 ⏳  |  L1 ⏳  |           |        |
+|   5   | `r1 + r2` |        |        |        |           |        |
+|   5   |           | `r4 + r5` |        |        |  `c[i]`   |        |
+|   6   |  `i + 2`  |           |        |        |  `c[i+1]`   |        |
+|   7   | `i <? N-1`  |        |        |        |           |        |
+|   8   |           |        |        |        |           | #loop2  |
+"""
+
+# ╔═╡ c7c2f956-3f06-4168-a666-e2c01cc0c954
+md"## Notes on unrolling"
+
+# ╔═╡ ffb3eb82-9152-4bda-bfb3-cedecc737037
+md"""
+* Can be controlled with `#pragma clang loop interleave_count(4)` but the compiler usually already does a good job choosing the `interleave_count`
+* This count depends on whether it is *compute bound* or *memory bound*, see next lecture where we discuss these.
+* The above examples assumes the value of `a[i]` etc... are in L1 cache. If not (aka "L1 cache miss"), the latency for loading `a[i]`, will be much longer.
+
+Additional practical limits include:
+
+| Limit | Typical value | Applies when |
+|---|---|---|
+| Load ports | 2/cycle | Always — hard throughput ceiling |
+| Load buffer (MOB) | ~70-100 entries | All loads, hit or miss |
+| Line fill buffers | ~12 entries | L1 cache misses only |
+"""
 
 # ╔═╡ 7dd1fa44-ed35-4abe-853f-58fe4085b441
 md"## Further readings"
@@ -566,14 +620,51 @@ img("https://www.karlrupp.net/wp-content/uploads/2018/02/42-years-processor-tren
 # ╔═╡ 42fcfc12-fb25-41fe-9ae0-3b76e7e24566
 TwoColumn(
 	md"""
-```
-load a[i]
-load 
+Reorder buffer:
+```c
+a = b + c;
+d = a + c; // Needs to wait for a
+e = b - c; // Independent from a
+           // Can be executed before
 ```
 
 Execution ports
 * Arithmetic Logic Unit (ALU)
+  ```c
+  a + b
+  ```
 * Address Generation Unit (AGU)
+  - Load AGU in port 2 & 3
+  - Store AGU in port 4
+
+  ```c
+  a[i] -> a + i * sizeof(...)
+  ```
+""",
+	img("https://uops.info/pipeline.png"),
+)
+
+# ╔═╡ 38ee4e77-a55a-49a5-8bd5-738f42f1340d
+TwoColumnWideLeft(md"""
+```
+loop:
+  load  r1 ← a[i]
+  load  r2 ← b[i]
+  add   r3 ← r1 + r2
+  store c[i] ← r3
+  add   i ← i + 1
+  cmp   i, N
+  jl  #loop ; Jump if Less
+```
+
+| Cycle |    ALU    |  ALU   | Load   |  Load  |   Store   |  Jump  |
+|-------|-----------|--------|--------|--------|-----------|--------|
+|   1   |           |        | `a[i]` | `b[i]` |           |        |
+|   2-4 |           |        |  L1 ⏳  |  L1 ⏳  |           |        |
+|   5   | `r1 + r2` |        |        |        |           |        |
+|   6   |  `i + 1`  |        |        |        |  `c[i]`   |        |
+|   7   | `i <? N`  |        |        |        |           |        |
+|   8   |           |        |        |        |           | #loop  |
 """,
 	img("https://uops.info/pipeline.png"),
 )
@@ -1617,6 +1708,12 @@ version = "4.1.0+0"
 # ╟─dabe87b7-403a-464b-b2bf-1c2bf4cecd41
 # ╟─d9277160-4c3d-4069-a4af-02913748d727
 # ╟─42fcfc12-fb25-41fe-9ae0-3b76e7e24566
+# ╟─f39ff087-41f8-40d0-bf65-3633c486f2af
+# ╟─38ee4e77-a55a-49a5-8bd5-738f42f1340d
+# ╟─b8a86895-4605-41a1-8297-225052d80876
+# ╟─cbe51e09-dadd-4488-bbac-5bcb116aef54
+# ╟─c7c2f956-3f06-4168-a666-e2c01cc0c954
+# ╟─ffb3eb82-9152-4bda-bfb3-cedecc737037
 # ╟─7dd1fa44-ed35-4abe-853f-58fe4085b441
 # ╟─fcf5c210-c100-4534-a65b-9bee23c518da
 # ╟─9d86cb9c-396c-4357-a336-2773ee84dc2e
