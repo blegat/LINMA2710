@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.21
+# v0.20.22
 
 using Markdown
 using InteractiveUtils
@@ -140,7 +140,7 @@ Consider a program requiring `m` load / store operations with memory for `o` ari
 
 As arithmetic operations and data transfer are done in parallel, the time per iteration is
 ```math
-\max(t_\text{arith} / o, t_\text{mem} / o) = 1/\min(\text{frequency}, a \cdot \text{bandwidth})
+\max(t_\text{arith}, t_\text{mem}) / o = 1/\min(\text{frequency}, a \cdot \text{bandwidth})
 ```
 So the number of operations per second is ``\min(\text{frequency}, a \cdot \text{bandwidth})``.
 
