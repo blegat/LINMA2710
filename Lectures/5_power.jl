@@ -129,16 +129,6 @@ cpu = let
 	df
 end;
 
-# ╔═╡ ab04cd81-8dab-4dca-a77d-e1da369bce1d
-let
-	f = CairoMakie.Figure()
-	ax = CairoMakie.Axis(f[1, 1], xlabel = "TDP [W]",)
-	CairoMakie.hist!(ax, cpu[:, :TDP],
-     label_formatter=x-> round(x, digits=2), label_size = 15,
-     strokewidth = 0.5, strokecolor = (:black, 0.5), color = :values)
-	f
-end
-
 # ╔═╡ 43d03970-8f6e-4ec5-81b4-e2d2ce332a7b
 cpu
 
@@ -157,16 +147,6 @@ gpu = let
 	sort!(df, :tdp_watts, rev = true)
 	df
 end;
-
-# ╔═╡ 23007175-ffd5-4cb3-9b8c-344eb5d7cce1
-let
-	f = CairoMakie.Figure()
-	ax = CairoMakie.Axis(f[1, 1], xlabel = "TDP [W]",)
-	CairoMakie.hist!(ax, gpu[:, :tdp_watts],
-     label_formatter=x-> round(x, digits=2), label_size = 15,
-     strokewidth = 0.5, strokecolor = (:black, 0.5), color = :values)
-	f
-end
 
 # ╔═╡ 6ee903bb-66ab-496c-baf9-0c39f5dadda8
 gpu
@@ -200,6 +180,20 @@ md"# Reducing power consumption"
 # ╔═╡ 584168f4-facb-4ab8-88af-c2e6e46f981e
 md"## Break down"
 
+# ╔═╡ 0adbb198-25a5-42ef-8fe0-9d725b671c3a
+md"## Dynamic voltage and frequency scaling (DVFS)"
+
+# ╔═╡ d95d4506-0517-4460-a555-3a7767fb5c71
+Foldable(md"If the clock frequency is decreased, does the time performance always get worse ?",
+md"It gets worse if the program is compute-bound but not if it is bandwidth-bound (cfr. *roofline model* of part 2)",
+)
+
+# ╔═╡ 6b34f98b-83df-4ddf-a736-1e76f3670e4e
+md"[YCC23] J. You, J.-W. Chung and M. Chowdhury. [Zeus: Understanding and Optimizing GPU Energy Consumption of DNN Training](https://www.usenix.org/conference/nsdi23/presentation/you). In: 20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23) (2023); pp. 119–139."
+
+# ╔═╡ dee22937-fb28-4c25-8948-e8c3d6e86604
+citezeus() = "[YCC23]";
+
 # ╔═╡ 02303063-676b-4a82-b15a-676120838a21
 md"""
 The power consumption of a chip is the sum of two sources:
@@ -210,24 +204,13 @@ The power consumption of a chip is the sum of two sources:
   - ``A`` : *Activity factor*, i.e., number of switches of transistors per clock cycle.
   - ``f`` : Clock frequency
 
-The higher the voltage is, the higher are the leakage currents hence the power consumption but the voltage cannot be lowered without lowering the frequency hence the two are often done together → DVFS. Example of application in $(bibcite(biblio, "you2023Zeus")).
+The higher the voltage is, the higher are the leakage currents hence the power consumption but the voltage cannot be lowered without lowering the frequency hence the two are often done together → DVFS. Example of application in $(citezeus()).
 """
-
-# ╔═╡ 0adbb198-25a5-42ef-8fe0-9d725b671c3a
-md"## Dynamic voltage and frequency scaling (DVFS)"
 
 # ╔═╡ e7ae324e-4a0d-4199-8673-6bdb23ff4ae9
 md"""
-The higher the voltage is, the higher are the leakage currents hence the power consumption but the voltage cannot be lowered without lowering the frequency hence the two are often done together → DVFS. Example of application in $(bibcite(biblio, "you2023Zeus")).
+The higher the voltage is, the higher are the leakage currents hence the power consumption but the voltage cannot be lowered without lowering the frequency hence the two are often done together → DVFS. Example of application in $(citezeus()).
 """
-
-# ╔═╡ d95d4506-0517-4460-a555-3a7767fb5c71
-Foldable(md"If the clock frequency is decreased, does the time performance always get worse ?",
-md"It gets worse if the program is compute-bound but not if it is bandwidth-bound (cfr. *roofline model* of part 2)",
-)
-
-# ╔═╡ 7ba23aa6-22a8-4474-a6fd-6949e4d6e201
-bibrefs(biblio, "you2023Zeus")
 
 # ╔═╡ 7bbf3989-cd27-4fc4-9b3c-246e2ae8f7d4
 md"## Gating"
@@ -243,16 +226,13 @@ If it continues being idle, it may then
 
 If it continues being idle, it may even be
 
-* *power-gated* : turn off circuit blocks. Which eliminates the leakage currents. It has a fixed power cost but is worth it if it is unused for a long time $(bibcite(biblio, "wang2011Power")). Corresponds to states C6-C10 in intel CPUs.
+* *power-gated* : turn off circuit blocks. Which eliminates the leakage currents. It has a fixed power cost but is worth it if it is unused for a long time [Wang et al.]. Corresponds to states C6-C10 in intel CPUs.
 
 You can inspect the states of your cores on your laptop with
 * Intel Power Gadget (Windows/macOS)
 * [powertop](https://github.com/fenrus75/powertop) (Linux)
 * [HWInfo](https://www.hwinfo.com/) or [Throttlestop](https://throttlestop.net/) (Windows)
 """
-
-# ╔═╡ 7de807fb-0c75-4b3b-85d0-a349736448ce
-bibrefs(biblio, "wang2011Power")
 
 # ╔═╡ fc2b703d-d692-470c-a503-335426b50f1a
 md"## Reducing the power consumption of your code"
@@ -270,7 +250,26 @@ md"""
 )
 
 # ╔═╡ 7471cb12-234e-4b4e-83bc-8ebca7493647
-import PlutoPlotly, PlotlyBase
+import PlutoPlotly, PlotlyBase, ShortCodes
+
+# ╔═╡ ab04cd81-8dab-4dca-a77d-e1da369bce1d
+let
+	PlutoPlotly.plot(
+		PlotlyBase.histogram(x=Vector(cpu[:, :TDP])),
+		PlotlyBase.Layout(; xaxis_title="TDP [W]")
+	)
+end
+
+# ╔═╡ 23007175-ffd5-4cb3-9b8c-344eb5d7cce1
+let
+	PlutoPlotly.plot(
+		PlotlyBase.histogram(x=Vector(gpu[:, :tdp_watts])),
+		PlotlyBase.Layout(; xaxis_title="TDP [W]")
+	)
+end
+
+# ╔═╡ 9d2ab913-28f8-443b-a60f-74a6d9e083e8
+ShortCodes.DOI("10.1145/2019608.2019612")
 
 # ╔═╡ f8bbe15a-30be-4e5f-9c88-4c46b1d0307c
 begin
@@ -329,6 +328,7 @@ PlotlyBase = "a03496cd-edff-5a9b-9e67-9cda94a718b5"
 PlutoPlotly = "8e989ff0-3d88-8e9f-f020-2b208a939ff0"
 PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+ShortCodes = "f62ebe17-55c5-4640-972f-b59c0dd11ccf"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
@@ -341,6 +341,7 @@ PlotlyBase = "~0.8.23"
 PlutoPlotly = "~0.6.5"
 PlutoTeachingTools = "~0.4.7"
 PlutoUI = "~0.7.79"
+ShortCodes = "~0.4.2"
 Unitful = "~1.28.0"
 """
 
@@ -350,7 +351,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.12.5"
 manifest_format = "2.0"
-project_hash = "5c43460010531917d58d8b3ff8a75f5153514f8e"
+project_hash = "46f1867b0f7cca8efe024234e8c48989eeedf25c"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -849,6 +850,12 @@ deps = ["Base64", "JuliaSyntaxHighlighting", "StyledStrings"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 version = "1.11.0"
 
+[[deps.Memoize]]
+deps = ["MacroTools"]
+git-tree-sha1 = "2b1dfcba103de714d31c033b5dacc2e4a12c7caa"
+uuid = "c03570c3-d221-55d1-a50c-7939bbd78826"
+version = "0.4.4"
+
 [[deps.Missings]]
 deps = ["DataAPI"]
 git-tree-sha1 = "ec4f7fbeab05d7747bdf98eb74d130a2a2ed298d"
@@ -1084,6 +1091,18 @@ version = "1.4.9"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 version = "1.11.0"
+
+[[deps.ShortCodes]]
+deps = ["Base64", "CodecZlib", "Downloads", "JSON", "LinearAlgebra", "Memoize", "URIs", "UUIDs"]
+git-tree-sha1 = "d79fb381c591540288499e7a63a24f37d2f150bc"
+uuid = "f62ebe17-55c5-4640-972f-b59c0dd11ccf"
+version = "0.4.2"
+
+    [deps.ShortCodes.extensions]
+    QRCodersExt = "QRCoders"
+
+    [deps.ShortCodes.weakdeps]
+    QRCoders = "f42e9828-16f3-11ed-2883-9126170b272d"
 
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
@@ -1401,14 +1420,15 @@ version = "4.1.0+0"
 # ╟─0adbb198-25a5-42ef-8fe0-9d725b671c3a
 # ╟─e7ae324e-4a0d-4199-8673-6bdb23ff4ae9
 # ╟─d95d4506-0517-4460-a555-3a7767fb5c71
-# ╟─7ba23aa6-22a8-4474-a6fd-6949e4d6e201
+# ╟─6b34f98b-83df-4ddf-a736-1e76f3670e4e
+# ╟─dee22937-fb28-4c25-8948-e8c3d6e86604
 # ╟─7bbf3989-cd27-4fc4-9b3c-246e2ae8f7d4
 # ╟─23999906-85bc-4c5f-9b42-2c9f4a63b9b8
-# ╟─7de807fb-0c75-4b3b-85d0-a349736448ce
+# ╟─9d2ab913-28f8-443b-a60f-74a6d9e083e8
 # ╟─fc2b703d-d692-470c-a503-335426b50f1a
 # ╟─3fbdadde-05a3-4737-899b-3f4e352be7ee
 # ╠═4d557e55-abaa-4526-9a80-1d32fd656633
-# ╟─7471cb12-234e-4b4e-83bc-8ebca7493647
+# ╠═7471cb12-234e-4b4e-83bc-8ebca7493647
 # ╟─f8bbe15a-30be-4e5f-9c88-4c46b1d0307c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
