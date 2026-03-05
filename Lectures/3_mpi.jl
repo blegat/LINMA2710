@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.8
+# v0.20.23
 
 using Markdown
 using InteractiveUtils
@@ -524,7 +524,7 @@ md"""
   - Don't wait the last minute, if you get into trouble it's easier to get this setup before you actually need it
 * Select $(img("https://www.ceci-hpc.be/assets/img/new_ceci_logo.png", :height => "15pt")) cluster from [the list](https://www.ceci-hpc.be/clusters.html) + `manneback` for GPU. You only have access to Tier-2 clusters. This sadly leaves out:
   - Tier-1 clusters such as Lucia
-  - Tier-0 cluster such as $(img("https://www.lumi-supercomputer.eu/content/uploads/2020/02/lumi_logo.png", :height => "15pt")) from $(img("https://upload.wikimedia.org/wikipedia/commons/8/8f/HPC_JU_logo_RGB.svg", :height => "20pt"))
+  - Tier-0 cluster such as $(img("https://www.lumi-supercomputer.eu/wp-content/uploads/2020/02/lumi_logo.png", :height => "15pt")) from $(img("https://upload.wikimedia.org/wikipedia/commons/8/8f/HPC_JU_logo_RGB.svg", :height => "20pt"))
 * Connect with SSH using `ssh lemaitre4` or `ssh manneback`.
 """
 
