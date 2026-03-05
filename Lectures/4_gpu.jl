@@ -629,7 +629,7 @@ function mandel(q::Array{ComplexF32}, maxiter::Int64, device; kws...)
     prg = cl.Program(; source = mandel_source.code) |> cl.build!
     k = cl.Kernel(prg, "mandelbrot")
 
-    timed_clcall(k, Tuple{Ptr{ComplexF32}, Ptr{Cushort}, Cushort},
+    timed_clcall(k, Tuple{CLPtr{ComplexF32}, CLPtr{Cushort}, Cushort},
            q, o, maxiter; kws...)
 
     return Array(o)
@@ -676,7 +676,7 @@ function mypi(; niters = 262144, in_nsteps = 512*512*512)
 
 	h_psum = Vector{Float32}(undef, nwork_groups)
 	d_partial_sums = CLArray{Float32}(undef, length(h_psum))
-    timed_clcall(pi_kernel, Tuple{Int32, Float32, cl.LocalMem{Float32}, Ptr{Float32}},
+    timed_clcall(pi_kernel, Tuple{Int32, Float32, cl.LocalMem{Float32}, CLPtr{Float32}},
     niters, step_size, localmem, d_partial_sums; global_size, local_size)
 	cl.copy!(h_psum, d_partial_sums)
 
