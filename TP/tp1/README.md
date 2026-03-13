@@ -1,8 +1,9 @@
 # LINMA2710 - Scientific Computing  
 ## TP1 - Parallel Computing 
-**Professors:** P.-A. Absil, B. Legat  
-**Teaching Assistants:** A. Oswald, A. Bayat, B. Loucheur  
 
+| Professors | Teaching Assistants | Year |
+|------------|---------------------|------|
+| P.-A. Absil, B. Legat | A. Oswald, A. Bayat, B. Loucheur | 2025-2026 |
 
 ---
 
