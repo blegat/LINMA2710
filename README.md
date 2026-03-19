@@ -21,7 +21,7 @@ This repository contains different resources for the LINMA2710 courses given at 
 | S8    | 25/03/2026 |                   | 26/03/2026 | GPU               | Legat    |
 | S9    | 01/04/2026 |                   | 02/04/2026 | PDE               | Absil    |
 | S10   | 08/04/2026 |                   | 09/04/2026 | PDE               | Absil    |
-| S11   | 15/04/2026 |                   | 16/04/2026 | PDE               | Absil    |
+| S11   | 15/04/2026 | Q&A project       | 16/04/2026 | PDE               | Absil    |
 | 🥚    | 22/04/2026 | 🐣                | 23/04/2026 | 🐇                | 🐰       |
 | 🥚    | 29/04/2026 | 🐣                | 30/04/2026 | 🐇                | 🐰       |
 | S12   | 06/05/2026 | Oral project      | 07/05/2026 | Power Consumption | Legat    |
