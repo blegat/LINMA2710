@@ -39,6 +39,48 @@ int main(int argc, char **argv) {
 
 	
 	const int N = 20000000;
+	// create random initial conditions on rank 0, and store them in a vector x.
+	std::vector<double> x(N);
+	std::vector<double> y(N);
+	if (procid ==0){
+
+		for (int i = 0; i < N; ++i) {
+			x[i] = 1e-10 * static_cast<double>(i);//random start value 
+		}
+	}
+
+	int n_local = N / nprocs; 
+	int remainder = N % nprocs; 
+	
+	std::vector<double> x_local(n_local);
+	std::vector<double> y_local(n_local);
+
+	
+	std::vector<int> sendcounts(nprocs);
+	std::vector<int> displs(nprocs);
+	for (int i = 0; i < nprocs; ++i) {
+		sendcounts[i] = n_local;
+		displs[i] = i*n_local;
+		if (i < remainder) {
+			sendcounts[i]++;
+			displs[i] += i;
+		} else {
+			displs[i] += remainder;
+		}
+	}
+
+	n_local = sendcounts[procid];
+
+	MPI_Scatterv(procid==0 ? x.data() : nullptr, sendcounts.data(), displs.data(), MPI_DOUBLE,
+	             x_local.data(), n_local, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+	compute_bound_local(x_local, y_local);
+
+
+	MPI_Gatherv(y_local.data(), n_local, MPI_DOUBLE,
+	            procid==0 ? y.data() : nullptr, sendcounts.data(), displs.data(), MPI_DOUBLE,
+	            0, MPI_COMM_WORLD);
+
 
 	/////////////////////////////
 
