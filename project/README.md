@@ -22,7 +22,7 @@ This part must be implemented using only the C++ Standard Library. No external l
 
 The `Matrix` class should implement the member functions as defined in `include/matrix.hpp` (and tested in `tests/test_matrix.cpp`).
 
-The implementation file is `template/matrix.cpp`.
+The implementation file is `src/matrix.cpp`.
 
 ### Questions
 
@@ -68,7 +68,7 @@ The benchmarking will be run automatically on Inginious for any submission that 
 
 ## Part 2 — Parallel Matrix Operations (OpenMP)
 
-In this part, you parallelize the Matrix operations from Part 1 using OpenMP. You work in the **same file** `template/matrix.cpp`.
+In this part, you parallelize the Matrix operations from Part 1 using OpenMP. You work in the **same file** `src/matrix.cpp`.
 
 ### Requirements
 
@@ -99,7 +99,7 @@ The `DistributedMatrix` class should implement the member functions as defined i
 
 The matrix is split by columns into parts as equal as possible across processes. Both matrices involved in operations have the same column partitioning across processes.
 
-The implementation file is `template/distributed_matrix.cpp` (look for `TODO` markers).
+The implementation file is `src/distributed_matrix.cpp` (look for `TODO` markers).
 
 ### Questions
 
@@ -127,7 +127,7 @@ A `MatrixCL` object stores:
 
 All operations are performed directly on device memory. OpenCL kernel code is compiled once at initialization with `initializeKernels` and stored in a shared `KernelCache`.
 
-The implementation file is `template/matrix_opencl.cpp` (look for `TODO` markers). You need to write both the OpenCL kernel source strings and the host-side methods that invoke them.
+The implementation file is `src/matrix_opencl.cpp` (look for `TODO` markers). You need to write both the OpenCL kernel source strings and the host-side methods that invoke them.
 
 ### Questions
 
@@ -171,7 +171,7 @@ You submit your implementation files on Inginious. The parts are:
 | Part 3 — MPI | `distributed_matrix.cpp` |
 | Part 4 — OpenCL | `matrix_opencl.cpp` |
 
-Parts 1 and 2 share the same source file `template/matrix.cpp`, compiled with `-fopenmp`. On Inginious, they are separate tasks: Part 1 runs your code with a single thread, Part 2 runs it with multiple threads.
+Parts 1 and 2 share the same source file `src/matrix.cpp`, compiled with `-fopenmp`. On Inginious, they are separate tasks: Part 1 runs your code with a single thread, Part 2 runs it with multiple threads.
 
 ## Guidelines
 
