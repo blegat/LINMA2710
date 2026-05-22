@@ -1,0 +1,9 @@
+\question{}
+
+Write a finite-volume scheme with only three (distinct) vertices for solving in C++ the heat equation on a disk
+\[
+\Omega = \{x\in\mathbb{R}^2 \mid x_1^2+x_2^2 \leq R^2\}
+\]
+with Dirichlet boundary conditions using a finite volume method. You can choose where to put the vertices; at least one should be on the boundary of $\Omega$ and one in the interior of $\Omega$.
+
+{\bf Comments:} For this question, there is no length limitation, but concise answers (i.e., short and clear) are preferred. There is not a unique adequate way to answer the question, but the answer should at least contain: (i) a paragraph that relates to PDEs, (ii) a paragraph that introduces a numerical method, and (iii) a C++ code. Since you do not have access to a Voronoi library, feel free to restrict the vertices to a simple configuration. The C++ code should produce an array \texttt{U} that contains the numerical solution. In the C++ code, the problem description should be hard coded. Hence do not address input/output aspects.

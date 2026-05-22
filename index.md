@@ -6,3 +6,8 @@ The html versions accessible here are static, see [here](Lectures) for details o
 * Distributed Computing with MPI [html](Lectures/3_mpi.html) [pdf](Lectures/3_mpi.pdf)
 * Graphics processing units [html](Lectures/4_gpu.html) [pdf](Lectures/4_gpu.pdf)
 * Power Consumption [html](Lectures/5_power.html) [pdf](Lectures/5_power.pdf)
+
+## Past exams
+
+* [2025 January](Exams/2025_01/main.pdf)
+* [2025 August](Exams/2025_08/main.pdf)

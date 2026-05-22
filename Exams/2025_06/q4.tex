@@ -1,0 +1,69 @@
+\question{}
+
+After the success of the kernel you developed in ``Question 3'',
+you now want to target applications with much larger $n$.
+For this reason, you now want to solve it with several compute nodes.
+You have access to $m$ compute nodes and enough material to connect $m$ pairs of compute nodes together.
+Using these connections, the communication of $k$ bytes takes a time
+equal to $\alpha + \beta k$.
+
+Answer the following questions:
+\begin{parts}
+  \part How would you interconnect the $m$ compute nodes ?
+    \begin{solutionbox}{7cm}
+      We could use $n/m$ adjacent values for each node and then connect each node with the two nodes
+      holding adjacent values as a ring.
+      A tree would also be possible, it would only require connecting $m-1$ pairs but some neighbors
+      won't be connected directly in a tree and will need $\log_2(m)$ communications.
+    \end{solutionbox}
+  \part How much time would the communication take at each time step of the integration
+    in terms of $\alpha, \beta, m, n$ ?
+    \begin{solutionbox}{7cm}
+      We can first communicate the values of \lstinline|prev| and then the values of \lstinline|next|.
+      That's two communications, each of 4 bytes:
+      \[ 2\alpha + 8\beta. \]
+    \end{solutionbox}
+  \part You would like to compute $\sum_{i=1}^n |u(\theta_i, t)|$
+    to verify whether the solution is diverging.
+    Which MPI collectives would you use ?
+    How much time would this take in terms of
+    $\alpha, \beta, m, n$ and also $\gamma$, the
+    time taken by the compute node to execute one arithmetic operation.
+    \begin{solutionbox}{23cm}
+      We can use \lstinline|MPI_reduce| with \lstinline|MPI_sum|.
+      We cannot use the classical complexity of \lstinline|MPI_reduce| with $\log_2(m)$ since we are using a
+      ring. As the diameter is $m/2$, we need at least $m/2$ communications.
+      Each communication only needs to communicate the value of the sum so it is only 4 bytes.
+      The complexity of doing the sum in each node is $2n/m \gamma$ (we multiply by 2 since we both need to do \lstinline|+| and the absolute value).
+      One could also consider that each node had access to at least $n/m$ threads in which case the complexity drops down to $\log_2(n/m) \gamma$,
+      this was also accepted.
+      We also need to merge the partial sums. This case the complexity depends on the approach, both were accepted (since this part of the complexity would hardly be the bottleneck):
+      Let $x_1, \ldots, x_m$ be the partial sums.
+      \begin{itemize}
+        \item We could
+        \begin{enumerate}
+          \item first sum $x_1, x_2$ into $x_{2}$ on node 2 and sum $x_{m-1},x_m$ into $x_{m_1}$ on node $m-1$.
+          \item Next we merge $x_2,x_3$ into $x_3$ on node 3 and $x_{m-1},x_{m-2}$ on node $m-2$,
+          \item etc...
+        \end{enumerate}
+        The complexity will then be $m/2 \gamma$.
+        \item We could
+        \begin{enumerate}
+          \item sum $x_{2i}, x_{2i-1}$ into $x_{2i}$ on node $2i$ for $i = 1, \ldots, m/2$.
+          \item Then we communicate $x_{4i-2}$ to $x_{4i-1}$ (no arithmetic operation needed) on node $4i-1$ for $i = 1, \ldots, m/4$.
+          \item Then we sum $x_{4i-1}, x_{4i}$ into $x_{4i}$ on node $4i$ for $i = 1, \ldots, m/4$.
+          \item Then we communicate $x_{8i-4}$ to $x_{8i-3}$ (no arithmetic operation needed) on node $8i-3$ for $i = 1, \ldots, m/8$.
+          \item Then we communicate $x_{8i-3}$ to $x_{8i-2}$ (no arithmetic operation needed) on node $8i-2$ for $i = 1, \ldots, m/8$.
+          \item Then we communicate $x_{8i-2}$ to $x_{8i-1}$ (no arithmetic operation needed) on node $8i-1$ for $i = 1, \ldots, m/8$.
+          \item etc...
+        \end{enumerate}
+        This would require more communication but since they are in parallel it gives the same amount of communication time (but this might consume more energy though).
+        The complexity in terms of $\gamma$ is decreased to $\log_2(m)\gamma$.
+      \end{itemize}
+
+      In total, we have
+      \[ m/2 (\alpha + 4 \beta + \gamma) + 2n/m \gamma. \]
+      As it is a complexity, constants didn't matter so, the following was also accepted for instance:
+      \[ m (\alpha + \beta + \gamma) + n/m \gamma. \]
+    \end{solutionbox}
+\end{parts}
