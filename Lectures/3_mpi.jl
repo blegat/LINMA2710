@@ -644,7 +644,7 @@ or 0 otherwise. Given ``S, T \subseteq V``,
 ```math
 \begin{align}
 \text{Width} &\qquad &  w(S, T) & = |\{ (u, v) \in E \mid u \in S, v \in T \}|\\
-\text{Bandwidth} & & \texttt{bw}(S, T) & = \sum_{u\in S, v\not\in S} w(u,v)
+\text{Bandwidth} & & \texttt{bw}(S, T) & = \sum_{u\in S, v\in T} w(u,v)
 \end{align}
 ```
 """
