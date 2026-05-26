@@ -9,5 +9,5 @@ The html versions accessible here are static, see [here](Lectures) for details o
 
 ## Past exams
 
-* [2025 January](Exams/2025_06/main.pdf)
+* [2025 June](Exams/2025_06/main.pdf)
 * [2025 August](Exams/2025_08/main.pdf)
