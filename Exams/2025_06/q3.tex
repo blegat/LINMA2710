@@ -1,0 +1,52 @@
+\question{}
+
+Consider the time integration of the following diffusion equation:
+\[ \frac{\partial u(\theta, t)}{\partial t} = \alpha \frac{\partial^2 u(\theta, t)}{\partial \theta^2}. \]
+The solution is also assumed to be cyclic, i.e., $u(\theta + 2\pi, t) = u(\theta, t)$ $\forall \theta \in \mathbb{R}$.
+The solution is discretized over $n$ equally spaced points in $\theta$:
+$\theta_1 = 0, \theta_2 = 2\pi/n, \theta_3 = 4\pi/n, \ldots$.
+
+You have written the following OpenCL kernel to integrate
+the equation over \lstinline|num_iter| time steps.
+The constant $F$ is $\alpha \Delta t / (\Delta x)^2$ where $\Delta x = 2\pi/n$.
+
+\textbf{Simplifying assumption} \emph{This kernel assumes that the number of processing elements of a compute unit is at least $n$
+so all threads are in the same compute unit.
+You do not have to consider any situation in which this is not the case.}
+
+\lstinputlisting[language=c]{Q3/ode.cl}
+
+You observe that your kernel does not always provide the same answer,
+the answer even seems to be incorrect.
+
+Answer the following questions:
+\begin{parts}
+  \part \label{issue} What is the issue causing the kernel to produce incorrect results ?
+
+    \begin{solutionbox}{9cm}
+      We are missing synchronization. So a thread could be using the wrong value of \lstinline|a[prev]|
+      or \lstinline|a[next]| in case they are not synchronized.
+
+      \textbf{Note}: In view of the simplifying assumption, the local and global sizes are the same so
+      \lstinline|get_local_id(0)| and 
+      \lstinline|get_global_id(0)| are the same. This is not the source of issues.
+    \end{solutionbox}
+  \part You identify that depending on your device, if $n$ is sufficienty small
+    you always get the correct answer. More precisely, you get the correct answer
+    in the following situations:
+    \begin{itemize}
+      \item $n \le 8$ and you use your CPU as device for your kernel,
+      \item $n \le 32$ and you use your GPU as device for your kernel.
+    \end{itemize}
+    Explain why.
+
+    \begin{solutionbox}{9cm}
+    If $n$ is that small then the execution can be run using SIMT in which case
+    the threads are guaranteed to be executed each instruction at the same time.
+    \end{solutionbox}
+  \part How can you fix this issue you identified in \ref{issue}. ?
+
+    \begin{solutionbox}{9cm}
+      We should add \lstinline|volatile| and also add barriers to synchronize the threads.
+    \end{solutionbox}
+\end{parts}
