@@ -551,6 +551,7 @@ Slides inspired from:
 * [Auto-Vectorization in LLVM](https://llvm.org/docs/Vectorizers.html)
 * [Information on processor architecture](https://uops.info)
 * [Advanced books on optimization](https://uops.info/)
+* [FFmpeg Assembly Language Lessons](https://github.com/FFmpeg/asm-lessons)
 """
 
 # ╔═╡ 9d86cb9c-396c-4357-a336-2773ee84dc2e
