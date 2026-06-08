@@ -128,7 +128,7 @@ end
 md"## Careful with fast math"
 
 # ╔═╡ b19154d8-cb88-4aac-b76a-18f647672d70
-Foldable(md"Why are the three elements in the center of the vector ignored in this example ?", md"In a large sum, the `total` variable become much larger than each summand. Because of this, significant roundoff errors can occur. These roundoff errors cannot be added to the `total` variable as it is too large but it may be added to the summands as they are smaller so as to compensate the error. Here, instead of considering a large sum, we just used a large first summand to simplify but you can consider `1` as being the sum of a large amounds of preceding elements in the sum to make it more realistic.")
+Foldable(md"Why are the three elements in the center of the vector ignored in this example ?", md"In a large sum, the `total` variable becomes much larger than each summand. Because of this, significant roundoff errors can occur. These roundoff errors cannot be added to the `total` variable as it is too large but it may be added to the summands as they are smaller so as to compensate the error. Here, instead of considering a large sum, we just used a large first summand to simplify but you can consider `1` as being the sum of a large amounts of preceding elements in the sum to make it more realistic.")
 
 # ╔═╡ 4cd17588-8f3c-447e-890b-fc881575db8d
 test_kahan = Cfloat[1.0, eps(Cfloat)/4, eps(Cfloat)/4, eps(Cfloat)/4, 1000eps(Cfloat)]
@@ -137,7 +137,7 @@ test_kahan = Cfloat[1.0, eps(Cfloat)/4, eps(Cfloat)/4, eps(Cfloat)/4, 1000eps(Cf
 sum(Float64.(test_kahan))
 
 # ╔═╡ 8df0ed24-b5bc-4cf8-b507-37bd8fc79be2
-md"To improve the accuracy this, we consider the [Kahan summation algorithm](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)."
+md"To improve the accuracy of this, we consider the [Kahan summation algorithm](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)."
 
 # ╔═╡ c8ae3959-6428-4937-9212-171ea6ab0888
 hbox([Div(
@@ -190,7 +190,7 @@ md"## Instruction sets"
 md"""
 The data is **packed** on a single SIMD unit whose width and register depends on the instruction set family.
 The single instruction is then run in parallel on all elements of this small **vector** stored in the SIMD unit.
-These give the prefix `vp` to the instruction names that stands from *Vectorized Packed*.
+These give the prefix `vp` to the instruction names that stands for *Vectorized Packed*.
 
 | Instruction Set Family | Width of SIMD unit | Register |
 |-----------------|-------------------|----------|
@@ -246,7 +246,7 @@ md"## SIMD at assembly level"
 @code_native debuginfo=:none f_broadcast((1, 2, 3, 4), (1, 2, 3, 4))
 
 # ╔═╡ 7530ea93-11fd-4931-9dd4-a5e820f8b540
-aside(tip(md"The suffix `v` in front of the instruction stands for `vectorized`. It means it is using a SIMD unit."), v_offset = -300)
+aside(tip(md"The prefix `v` in front of the instruction stands for `vectorized`. It means it is using a SIMD unit."), v_offset = -300)
 
 # ╔═╡ a0abb64b-6dc2-4e98-bdfd-5de9b5c97897
 md"## Tuples implementing the array interface"
@@ -340,7 +340,7 @@ md"# Interleaving"
 # ╔═╡ 48422080-e3b5-4e3c-bbc9-1f61ccf15915
 md"""
 With `interleave_count(2)` and
-* `-O1`, we see `!{!"llvm.loop.interleave.count", i32 2}` at the end but it hasn't ben applied
+* `-O1`, we see `!{!"llvm.loop.interleave.count", i32 2}` at the end but it hasn't been applied
 * `-O2`, we see the interleaving is applied
 """
 

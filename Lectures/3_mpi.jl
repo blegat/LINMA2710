@@ -454,7 +454,7 @@ The network cannot buffer the whole message (unless it is short). The sender nee
 md"## Example"
 
 # ╔═╡ d7e31ced-4eb2-4221-b83f-462e8f32fe89
-aside(Foldable(md"Is this timing bandwith accurately ?",
+aside(Foldable(md"Is this timing bandwidth accurately ?",
 md"No, the time also includes the time that process 0 has to wait until process 1 is ready to start receiving. If the message is too small, it will just buffer the message and `MPI_Send` could return before the other process even reached `MPI_Recv`, see next slide."
 ), v_offset = -500)
 

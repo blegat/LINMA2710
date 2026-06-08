@@ -387,7 +387,7 @@ many_sum(x::Vector{Cfloat}; base_num_threads = 1, factor = 2, verbose = 0) = cca
 md"# Amdahl's law"
 
 # ╔═╡ 2a1f3d29-4d6b-4634-86f3-4ecd4a7821a2
-md"## Speed-up and efficency"
+md"## Speed-up and efficiency"
 
 # ╔═╡ b26ab400-ce89-4a76-ad48-464ac6821dd2
 md"## Amdahl's law"
@@ -517,7 +517,7 @@ Div(definition("Efficiency", md"""
 E_p = \frac{S_p}{p}
 ```"""); style = Dict("margin-left" => "30px")),
 	Div(md"""
-Let ``T_p`` bet the time with ``p`` processes
+Let ``T_p`` be the time with ``p`` processes
 * ``E_p > 1`` → Unlikely
 * ``E_p = 1`` → Ideal
 * ``E_p < 1`` → Realistic

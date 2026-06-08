@@ -25,7 +25,7 @@ md"## Primary energy consumption"
 html"""<iframe src="https://ourworldindata.org/grapher/global-energy-substitution?tab=chart" loading="lazy" style="width: 100%; height: 600px; border: 0px none;" allow="web-share; clipboard-write"></iframe>"""
 
 # ╔═╡ 68b25c38-7c43-42fd-89ec-a6aede2e467a
-md"## The emisson from the power sector not negligible"
+md"## The emission from the power sector not negligible"
 
 # ╔═╡ 417c20b5-9ec3-48d7-96c6-6d86401dab86
 md"[Total U.S. Greenhouse Gas Emissions by Economic Sector in 2022](https://www.epa.gov/ghgemissions/electric-power-sector-emissions)"

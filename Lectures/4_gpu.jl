@@ -300,10 +300,10 @@ There are 64 threads so they are on two different warps. All the threads of the 
 )
 
 # ╔═╡ 501b4fff-4905-4663-9cf5-d094761a27d2
-md"Are the threads that are still active in the same warp for you sum example ?"
+md"Are the threads that are still active in the same warp for your sum example ?"
 
 # ╔═╡ 48ae3222-cf66-487f-9d9e-09ae601d425b
-md"## Warp diversion for our sum"
+md"## Warp divergence for our sum"
 
 # ╔═╡ fff22d71-2732-4206-8bed-26dee00d6c48
 Foldable(
