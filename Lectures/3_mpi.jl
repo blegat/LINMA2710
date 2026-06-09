@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.23
+# v1.0.1
 
 using Markdown
 using InteractiveUtils
@@ -117,6 +117,22 @@ run(`mpicc -show`)
 
 # ╔═╡ 5441e428-b320-433c-acde-15fe6bf58537
 run(`mpic++ -show`)
+
+# ╔═╡ 70e88569-cd5c-40e8-9198-6bf6578fb0a2
+md"""
+## Bandwidth and Latency
+
+The time it takes to transfer ``n`` bytes is usually modeled with
+```math
+T(n) = \alpha + \beta n
+```
+where ``\alpha`` is the *latency* (fixed-cost) and ``\beta`` is the *bandwidth* (linear cost).
+This simple model does not incorporate the fact that communicating between nodes that are not directly connected needs to pass through intermediate nodes or routers.
+Therefore, using these formula only gives a **lower bound** to the actual time. This bound is achieved for a fully-connected topology but for other topologies, they should really only be considered as a lower bound.
+So consider the bounds obtained in the Collectives section below as lower bounds.
+
+See $(citeintro("Section 2.7.8")) for more details.
+"""
 
 # ╔═╡ 40606ee3-38cc-4123-9b86-b774bf89e499
 md"# Collectives"
@@ -820,7 +836,7 @@ aside(citeintro("Section 2.7.6.3"), v_offset = -150)
 md"## Butterfly"
 
 # ╔═╡ f7f097cb-d7bd-49eb-a030-ac26f8f61a67
-md"Fat-tree need large switches, alternative is butterfly network:"
+md"Fat-tree need large switches, the root one of previous slide had 8 links. This is as many links as the number of processes, that's not scalable. An alternative is butterfly network for which each switch uses at most 4 links. In the figures above, the boxes with `P` represent a process, the ones with `M` respresent their local memory and the other ones are the routers."
 
 # ╔═╡ 6041a909-d26c-4ab1-836b-29953c578759
 Foldable(md"What is the number of edges ? What is the bisection width ?",
@@ -1098,7 +1114,7 @@ StaticArrays = "~1.9.17"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.12.5"
+julia_version = "1.12.6"
 manifest_format = "2.0"
 project_hash = "dd10f104cd42c7c2e99d0e31aeb629e0242d1f87"
 
@@ -1924,6 +1940,7 @@ version = "4.1.0+0"
 # ╟─35ba1eea-56ae-4b74-af96-21ec5a93c455
 # ╠═8981b5e2-2497-478e-ab28-a14b62f6f916
 # ╠═5441e428-b320-433c-acde-15fe6bf58537
+# ╟─70e88569-cd5c-40e8-9198-6bf6578fb0a2
 # ╟─40606ee3-38cc-4123-9b86-b774bf89e499
 # ╟─b94cd399-0370-49e9-a522-056f3af22955
 # ╟─9b4cae31-c319-444e-98c8-2c0bfc6dfa0c
