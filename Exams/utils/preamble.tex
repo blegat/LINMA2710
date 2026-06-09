@@ -1,0 +1,54 @@
+\input{../utils/packages} 		% packages
+\input{../utils/commands} 		% packages
+
+\input{../utils/header}
+
+\setlength\parindent{0pt}
+
+% https://tex.stackexchange.com/questions/89251/how-to-break-long-solutions-in-exam-class
+\makeatletter
+\def\SetTotalwidth{\advance\linewidth by \@totalleftmargin
+\@totalleftmargin=0pt}
+\makeatother
+
+\usepackage{xcolor}
+\usepackage{listings}  % for lstlisting environment
+% source: http://tex.stackexchange.com/questions/21106/adding-c-code-in-latex
+% https://www.overleaf.com/learn/latex/Code_listing
+
+% See https://www.uclouvain.be/fr/system/files/uclouvain_assetmanager/groups/cms-editors-arec/charte-graphique-uclouvain/UCLouvain_charte_graphique.pdf
+\definecolor{ucl_bleu_nuit}{HTML}{00214e}
+\definecolor{ucl_cyan}{HTML}{5db3e6}
+\definecolor{ucl_bleu_gris}{HTML}{9cb7d4}
+\definecolor{epl}{HTML}{4a96cd}
+
+\lstdefinestyle{hidden_comments}{
+    %backgroundcolor=\color{backcolour},
+    commentstyle=\color{white},
+    keywordstyle=\color{ucl_bleu_nuit},
+    numberstyle=\tiny\color{ucl_bleu_gris},
+    stringstyle=\color{epl},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset { %
+  language=C++,
+  numbers=left,
+  % escapeinside={\%*}{*)},          % if you want to add LaTeX within your code; seems to remove line breaks after it
+  % % escapechar=|,  % then I can do |\label{line:blah}| in the code - but problem with C++'s | symbol
+  escapechar=@,
+  columns=flexible,  % for adequate copy-paste (http://tex.stackexchange.com/questions/4911/phantom-spaces-in-listings-pdf)
+  style=hidden_comments,
+}
+
+\usepackage{algorithmic}
