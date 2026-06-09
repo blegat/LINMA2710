@@ -126,7 +126,7 @@ The time it takes to transfer ``n`` bytes is usually modeled with
 ```math
 T(n) = \alpha + \beta n
 ```
-where ``\alpha`` is the *latency* (fixed-cost) and ``\beta`` is the *bandwidth* (linear cost).
+where ``\alpha`` is the *latency* (fixed-cost) and ``\beta`` is the *time per byte*, so the inverse of the bandwidth, (linear cost).
 This simple model does not incorporate the fact that communicating between nodes that are not directly connected needs to pass through intermediate nodes or routers.
 Therefore, using these formula only gives a **lower bound** to the actual time. This bound is achieved for a fully-connected topology but for other topologies, they should really only be considered as a lower bound.
 So consider the bounds obtained in the Collectives section below as lower bounds.
