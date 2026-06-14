@@ -190,7 +190,7 @@ begin
 	no_diff = Foldable(
 		md"Wait, these didn't make any difference in the benchmark, how can it be ?",
 		md"""
-The compiler most probably use a register (actually a SIMD register here (if there is any) since we used `#pragma omp simd`) as accumulator for the `for` loop and only stored the value of that register into `total`, `local_results[thread_num]` or `no_false_sharing` (depending on the version).
+The compiler most probably uses a register (actually a SIMD register here (if there is any) since we used `#pragma omp simd`) as accumulator for the `for` loop and only stored the value of that register into `total`, `local_results[thread_num]` or `no_false_sharing` (depending on the version).
 Despite all this, it is still important to be careful about this issue and not trust the execution on one environment or rely too much on compiler optimizations for the code to be portable.
 """,
 	)
