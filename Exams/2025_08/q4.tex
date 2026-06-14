@@ -48,14 +48,14 @@ and $z$ be the number of nonzero entries in the whole sparse matrix.
             where
             \begin{itemize}
             \item the first $\alpha + \beta n$ is for broadcasting the input vector of length $n$ (assuming node one can send the data to all other nodes in parallel since it has distinct connections to each node),
-            \item $\gamma (z / d + n)$ is the total computation time for $z$ nonzeros, if $d$ is large and gets close to $z$, the number of nonzeros per node is small but we still need to iterate through \texttt{colptr} which has length $m$ so we need to use $z/d + m$ not just $z/d$,
-            \item and the second $\alpha + \beta m/d$ is for gathering the result vector of size $n$.
+            \item $\gamma (z / d + n)$ is the total computation time for $z$ nonzeros, if $d$ is large and gets close to $z$, the number of nonzeros per node is small but we still need to iterate through \texttt{colptr} which has length $n$ so we need to use $z/d + n$ not just $z/d$,
+            \item and the second $\alpha + \beta m/d$ is for gathering the result vector of size $m$.
             \end{itemize}
 
             For the \textbf{tree topology} (column-wise partitioning),
             the time complexity is:
             \[
-                T_{\text{tree}} = \mathcal{O}(\alpha \log_2 d + \beta (n/2 + n/4 + n/8 + \cdots) + \gamma (z + n) / d + (\alpha + \beta m) \log_2 d)
+                T_{\text{tree}} = \mathcal{O}(\alpha \log_2 d + \beta (n/2 + n/4 + n/8 + \cdots) + \gamma (z + n) / d + (\alpha + \beta m + \gamma m) \log_2 d)
             \]
             where
             \begin{itemize}
@@ -64,7 +64,7 @@ and $z$ be the number of nonzero entries in the whole sparse matrix.
                 Then each child communicate half of the vector so length $n/4$ etc...
                 In total, we have a sum of $\mathcal{O}(n/2 + n/4 + n/8 + \cdots) = \mathcal{O}(n)$.
                 \item $\gamma (z + n) / d$ is the computation. In case the matrix is super sparse and $z \ll n$, we still need to iterate over \texttt{colptr} so we need $z + n$.
-                \item $(\alpha + \beta n) \log_2 d$ is for the communication of the result vector. This time, each communication is with the full result of length $m$.
+                \item $(\alpha + \beta m + \gamma m) \log_2 d$ is for the reducing procedure of the result vector. This time, each communication is with the full result of length $m$ and we have to sum the partial result vectors of length $m$ at each level of the tree.
             \end{itemize}
         \end{solutionbox}
 \end{parts}
