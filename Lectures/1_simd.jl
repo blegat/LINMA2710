@@ -95,7 +95,7 @@ md"## Faster Julia code"
 
 # ╔═╡ f853de2d-ca27-42d6-af9a-194ee6bb7d89
 Foldable(md"How to get the same speed up from the Julia code ?", md"
-* The `-O3` option need to be passed to the `julia` session that started Pluto, `-O2` is used by default.
+* The `-O3` option needs to be passed to the `julia` session that started Pluto, `-O2` is used by default.
 * Instead of applying `-fast-math` to the whole library, the macro `@fastmath` allows to apply it to a selected part of the code.
 * In order to accurately throw the out of bound error for the **first** index that is out of bound, Julia will prevent SIMD to be applied. The bound checking also makes it harder to parallelise. To circumvent this, check the bounds outside of the loop and then use `@inbounds` to disable bound checks inside the loop.
 * The use of SIMD can also be forced with `@simd`.")
@@ -128,7 +128,7 @@ end
 md"## Careful with fast math"
 
 # ╔═╡ b19154d8-cb88-4aac-b76a-18f647672d70
-Foldable(md"Why are the three elements in the center of the vector ignored in this example ?", md"In a large sum, the `total` variable becomes much larger than each summand. Because of this, significant roundoff errors can occur. These roundoff errors cannot be added to the `total` variable as it is too large but it may be added to the summands as they are smaller so as to compensate the error. Here, instead of considering a large sum, we just used a large first summand to simplify but you can consider `1` as being the sum of a large amounts of preceding elements in the sum to make it more realistic.")
+Foldable(md"Why are the three elements in the center of the vector ignored in this example ?", md"In a large sum, the `total` variable becomes much larger than each summand. Because of this, significant roundoff errors can occur. These roundoff errors cannot be added to the `total` variable as it is too large but they may be added to the summands as they are smaller so as to compensate the error. Here, instead of considering a large sum, we just used a large first summand to simplify but you can consider `1` as being the sum of a large amount of preceding elements in the sum to make it more realistic.")
 
 # ╔═╡ 4cd17588-8f3c-447e-890b-fc881575db8d
 test_kahan = Cfloat[1.0, eps(Cfloat)/4, eps(Cfloat)/4, eps(Cfloat)/4, 1000eps(Cfloat)]
@@ -147,7 +147,7 @@ hbox([Div(
 )
 
 # ╔═╡ 52cd9d6e-0e24-45ae-a602-1b9d9edc67ae
-Foldable(md"What happens when `-ffast-math` is enabled ?", md"The flag allows LLVM to optimize out the code to be exactly the as the code of `c_sum`! This does not happen at `-O0`, so the optimization level also needs to be increased to see this.")
+Foldable(md"What happens when `-ffast-math` is enabled ?", md"The flag allows LLVM to optimize out the code to be exactly the same as the code of `c_sum`! This does not happen at `-O0`, so the optimization level also needs to be increased to see this.")
 
 # ╔═╡ 1a4f7389-9d1b-4008-8896-76ecc409ab1f
 md"For further details, see [this blog post](https://simonbyrne.github.io/notes/fastmath/)."
@@ -188,9 +188,9 @@ md"## Instruction sets"
 
 # ╔═╡ 1ddcda8b-fa23-4802-852c-e70b1777c2e4
 md"""
-The data is **packed** on a single SIMD unit whose width and register depends on the instruction set family.
+The data is **packed** on a single SIMD unit whose width and register depend on the instruction set family.
 The single instruction is then run in parallel on all elements of this small **vector** stored in the SIMD unit.
-These give the prefix `vp` to the instruction names that stands for *Vectorized Packed*.
+These give the prefix `vp`, which stands for *Vectorized Packed*, to the instruction names.
 
 | Instruction Set Family | Width of SIMD unit | Register |
 |-----------------|-------------------|----------|
@@ -470,9 +470,9 @@ md"## Further notes"
 
 # ╔═╡ ffb3eb82-9152-4bda-bfb3-cedecc737037
 md"""
-* Can be controlled with `#pragma clang loop interleave_count(4)` but the compiler usually already does a good job choosing the `interleave_count`
+* Can be controlled with `#pragma clang loop interleave_count(4)` but the compiler usually already does a good job choosing the `interleave_count`.
 * This count depends on whether it is *compute bound* or *memory bound*, see next lecture where we discuss these.
-* The above examples assumes the value of `a[i]` etc... are in L1 cache. If not (aka "L1 cache miss"), the latency for loading `a[i]`, will be much longer.
+* The above examples assume that the value of `a[i]` etc. are in L1 cache. If not (aka "L1 cache miss"), the latency for loading `a[i]` will be much longer.
 
 Additional practical limits include:
 

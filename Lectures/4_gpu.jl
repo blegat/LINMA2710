@@ -90,7 +90,7 @@ OpenCL.versioninfo()
 md"See also `clinfo` command line tool and `examples/OpenCL/common/device_info.c`."
 
 # ╔═╡ b8f2ae64-8e2a-4ac3-9635-4761077cb834
-aside(tip(Foldable(md"tl;dr To refresh the list of platforms, you need to quit Julia and open a new session", md"The OpenCL ICD Loader will compute the list of available platforms once the first time it is needed and it will never recompute it again. You can indeed see [here](https://github.com/KhronosGroup/OpenCL-ICD-Loader/blob/d547426c32f9af274ec1369acd1adcfd8fe0ee40/loader/linux/icd_linux.c#L234-L238) it it sets a global `initialized` variable to `true`. This means that, if you do `using pocl_jll` or install the required GPU drivers and look at the list of platforms again from the same Julia sessions, you won't see any changes! There is unfortunately no way to set this `initialized` variable back to `false` so you'll need to restart Julia and make sure you do `using pocl_jll` before using OpenCL. Fortunately, Pluto does this in the right order.")), v_offset = -400)
+aside(tip(Foldable(md"tl;dr To refresh the list of platforms, you need to quit Julia and open a new session", md"The OpenCL ICD Loader will compute the list of available platforms once the first time it is needed and it will never recompute it again. You can indeed see [here](https://github.com/KhronosGroup/OpenCL-ICD-Loader/blob/d547426c32f9af274ec1369acd1adcfd8fe0ee40/loader/linux/icd_linux.c#L234-L238) that it sets a global `initialized` variable to `true`. This means that, if you do `using pocl_jll` or install the required GPU drivers and look at the list of platforms again from the same Julia sessions, you won't see any changes! There is unfortunately no way to set this `initialized` variable back to `false` so you'll need to restart Julia and make sure you do `using pocl_jll` before using OpenCL. Fortunately, Pluto does this in the right order.")), v_offset = -400)
 
 # ╔═╡ 7c6a4307-610b-461e-b63a-e1b10fade204
 md"## Important stats"
@@ -216,7 +216,7 @@ md"# Reduction on GPU"
 md"""
 Many operations can be framed in terms of a [MapReduce](https://en.wikipedia.org/wiki/MapReduce) operation.
 * Given a vector of data
-* It first map each elements through a given function
+* It first maps each element through a given function
 * It then reduces the results into a single element
 
 The mapping part is easily embarassingly parallel but the reduction is harder to parallelize. Let's see how this reduction step can be achieved using arguably the simplest example of `mapreduce`, the sum (corresponding to an identity map and a reduction with `+`).
@@ -273,7 +273,7 @@ md"""
 * AMD wavefront : width of 64 threads
 * In general : [`CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE`](https://registry.khronos.org/OpenCL/sdk/3.0/docs/man/html/clGetKernelWorkGroupInfo.html)
 * Consecutive `get_local_id()` starting from 0
-  - So the thread of local id from 0 to 31 are in the same CUDA warp.
+  - So the threads of local id from 0 to 31 are in the same CUDA warp.
 * Threads execute the **same instruction** at the same time so no need for `barrier`.
 """
 
@@ -735,7 +735,7 @@ local_sum(global_len, local_len, local_code, local_device)
 
 # ╔═╡ 9195adff-cc5d-4504-9a31-ba19b18639a0
 Foldable(
-	md"How to compute the sum an array in **local** memory with a kernel ?",
+	md"How to compute the sum of the elements of an array in **local** memory with a kernel ?",
 	codesnippet(local_code),
 )
 
