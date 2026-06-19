@@ -206,7 +206,7 @@ hbox([
 Foldable(
 	md"Lower bound complexity with ``p`` processes if each ``x_i`` has length ``n/p`` bytes ?",
 	md"""
-Lower bound : ``\log_2(p) \alpha`` using *spanning tree* algorithm and ``\beta n`` as all messages need to be sent at least once. *spanning tree* is advantageous if ``\alpha`` is larger than ``\beta`` and *direct to `1`* is preferable otherwise. In practice, you want a mix of both.
+Lower bound : ``\log_2(p) \alpha`` using *spanning tree* algorithm and ``\beta n`` as all messages need to be sent at least once.
 
 First send ``x_2`` from 2 to 1 and simultaneously send ``x_4`` from 4 to 3.
 Complexity is ``\alpha + \beta n/4``
@@ -232,6 +232,35 @@ In total, it is ``2\alpha + 3\beta n/4``. In general, we have
 ```math
 \log_2(p)\alpha + \beta n(1 + 2 + 4 + \cdots + p/2)/p = \log_2(p)\alpha + \beta n(p - 1)/p \approx \log_2(p)\alpha + \beta n
 ```
+
+What about having each node sending directly to 1 ?
+
+| `procid` | 1 | 2 | 3 | 4 |
+|----------|---|---|---|---|
+|    | ``x_1`` |   |   |   |
+|    | ``x_2`` | ``x_2`` |   |   |
+|    |   |   | ``x_3`` |   |
+|    |   |   |         | ``x_4`` |
+
+Then
+
+| `procid` | 1 | 2 | 3 | 4 |
+|----------|---|---|---|---|
+|    | ``x_1`` |   |   |   |
+|    | ``x_2`` | ``x_2`` |   |   |
+|    | ``x_3``  |   | ``x_3`` |   |
+|    |   |   |         | ``x_4`` |
+
+Then
+
+| `procid` | 1 | 2 | 3 | 4 |
+|----------|---|---|---|---|
+|    | ``x_1`` |   |   |   |
+|    | ``x_2`` | ``x_2`` |   |   |
+|    | ``x_3``  |   | ``x_3`` |   |
+|    | ``x_4`` |   |         | ``x_4`` |
+
+Here, we have ``3\alpha + 3\beta n/4``. The coefficient is higher in front of ``\alpha``. However, is the same in front of ``\beta``. Indeed, even though the spanning tree above communicate more bytes through the network, as the communication from node 2 to node 1 and node 4 to node 3 are done in parallel, this isn't affecting the coefficient in front of ``\beta``.
 """
 )
 
