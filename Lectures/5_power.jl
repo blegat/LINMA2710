@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.24
+# v1.0.1
 
 using Markdown
 using InteractiveUtils
@@ -294,7 +294,7 @@ struct URL
     url::String
 end
 
-function save_image(url::URL, html_attributes...; name = split(url.url, '/')[end], kws...)
+function save_image(url::URL, html_attributes...; name = split(split(url.url, '/')[end], '?')[1], kws...)
     path = joinpath("cache", name)
     return PlutoTeachingTools.RobustLocalResource(url.url, path, html_attributes...), path
 end
@@ -1428,7 +1428,7 @@ version = "4.1.0+0"
 # ╟─1d05bb8f-466f-4b48-9c31-d92605282663
 # ╟─1e7dc6ea-1b80-4bf2-8a33-c8719bd2c88c
 # ╟─14bf7b19-2cf7-4f41-960b-de5bafa398b9
-# ╟─ab04cd81-8dab-4dca-a77d-e1da369bce1d
+# ╠═ab04cd81-8dab-4dca-a77d-e1da369bce1d
 # ╟─43d03970-8f6e-4ec5-81b4-e2d2ce332a7b
 # ╟─e626343e-44ec-48cc-8a4a-2ada0fe05cf6
 # ╟─09382a24-7e35-45ac-bfbc-46ea15a40590
