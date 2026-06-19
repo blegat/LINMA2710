@@ -206,7 +206,7 @@ hbox([
 Foldable(
 	md"Lower bound complexity with ``p`` processes if each ``x_i`` has length ``n/p`` bytes ?",
 	md"""
-Lower bound : ``\log_2(p) \alpha`` using *spanning tree* algorithm and ``\beta n`` as all message need to sent at least once. *spanning tree* is advantageous if ``\alpha`` is larger than ``\beta`` and direct to `1` if otherwise. In practice, you want a mix of both.
+Lower bound : ``\log_2(p) \alpha`` using *spanning tree* algorithm and ``\beta n`` as all messages need to be sent at least once. *spanning tree* is advantageous if ``\alpha`` is larger than ``\beta`` and *direct to `1`* is preferable otherwise. In practice, you want a mix of both.
 
 First send ``x_2`` from 2 to 1 and simultaneously send ``x_4`` from 4 to 3.
 Complexity is ``\alpha + \beta n/4``
@@ -463,7 +463,7 @@ md"## Blocking communication"
 md"""
 Blocking send/received with `MPI_Send` and `MPI_Recv`.
 
-The network cannot buffer the whole message (unless it is short). The sender need to wait for the receiver to be ready and then transfer its copy of the data.
+The network cannot buffer the whole message (unless it is short). The sender needs to wait for the receiver to be ready and then transfers its copy of the data.
 """
 
 # ╔═╡ 34a10003-2c32-4332-b3e6-ce70eec0cbbe
@@ -656,13 +656,14 @@ md"## Bisection bandwidth"
 # ╔═╡ 1b617828-e2b2-4a94-a120-59fa533d3e11
 md"""
 Bandwidth ``\texttt{bw}(u, v)`` is the bandwidth of the cable if ``(u, v) \in E``
-or 0 otherwise. Given ``S, T \subseteq V``,
+or 0 otherwise. Given ``S, T \subseteq V`` two disjoint subsets of nodes ``S \cap T = \varnothing``,
 ```math
 \begin{align}
 \text{Width} &\qquad &  w(S, T) & = |\{ (u, v) \in E \mid u \in S, v \in T \}|\\
 \text{Bandwidth} & & \texttt{bw}(S, T) & = \sum_{u\in S, v\in T} \texttt{bw}(u,v)
 \end{align}
 ```
+The width is exactly the number of edges between the two sets of nodes.
 """
 
 # ╔═╡ f2ebc6fb-e07c-4922-897d-9bbe0f5fa1d0
@@ -684,7 +685,7 @@ The *bisection **band**width* is:
 # ╔═╡ 8da580fe-6b56-4d8f-ad43-aed7b728a06e
 md"""
 * Worst case pairwise communication of two groups ``S`` and ``V \setminus S`` of *almost* (``\pm 1``) equal size.
-* NP-hard to compute for general graphs
+* NP-hard to compute for general graphs.
 """
 
 # ╔═╡ fa024a5d-52a6-459d-894d-13a60ec723d2
@@ -777,7 +778,7 @@ Foldable(md"What are the number of switches, edges, graph diameter and bisection
 md"""
 * There are ``n^2`` switches one per intersection. This makes this architecture only suitable for small ``n``.
 * The number of edges is : ``|E| = 2n^2`` which consists of ``n`` connections from an input to a switch, ``n`` connections from a switch to an output and ``2n(n-1)`` connections between switches.
-* The diameter 2 if we don't count the in-between switches or ``2n`` if we coun't them.
+* The diameter is 2 if we don't count the in-between switches or ``2n`` if we count them.
 * The bisection width is ``n/2``.
 """)
 
@@ -836,7 +837,7 @@ aside(citeintro("Section 2.7.6.3"), v_offset = -150)
 md"## Butterfly"
 
 # ╔═╡ f7f097cb-d7bd-49eb-a030-ac26f8f61a67
-md"Fat-tree need large switches, the root one of previous slide had 8 links. This is as many links as the number of processes, that's not scalable. An alternative is butterfly network for which each switch uses at most 4 links. In the figures above, the boxes with `P` represent a process, the ones with `M` respresent their local memory and the other ones are the routers."
+md"Fat-tree needs large switches, the root one of previous slide had 8 links. This is as many links as the number of processes, that's not scalable. An alternative is butterfly network for which each switch uses at most 4 links. In the figures above, the boxes with `P` represent a process, the ones with `M` represent their local memory and the other ones are the routers."
 
 # ╔═╡ 6041a909-d26c-4ab1-836b-29953c578759
 Foldable(md"What is the number of edges ? What is the bisection width ?",
@@ -1033,8 +1034,8 @@ img1(f, args...) = img("https://raw.githubusercontent.com/VictorEijkhout/TheArtO
 # ╔═╡ 133f4c7d-33e0-4e13-b716-f538125436ca
 TwoColumnWideLeft(
 md"""
-There can be ``n`` simultaneous communication at the same time, provided that each input communicate with a different output.
-The figure on the right provides an example of such non-conflicting communication with the black dots indicating that the input of that row communicates to the corresponding output (case (a) of above figure). The switch at row 1 and column 2 is just propagating the input data horizontally and output data vertically (case (b) of above figure). The switch at row 0 and column 5 is receiving no data.
+There can be ``n`` simultaneous communications at the same time, provided that each input communicates with a different output.
+The figure on the right provides an example of such non-conflicting communications with the black dots indicating that the input of that row communicates to the corresponding output (case (a) of above figure). The switch at row 1 and column 2 is just propagating the input data horizontally and output data vertically (case (b) of above figure). The switch at row 0 and column 5 is receiving no data.
 """,
 img1("crossbar.jpg"),
 )
