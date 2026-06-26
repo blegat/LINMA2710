@@ -1,0 +1,70 @@
+\question{}
+
+You now want to distribute the matrix multiplication over multiple compute nodes of a cluster.
+The sparse matrix is large and should be distributed over the compute nodes.
+
+Then, the matrix-vector product will be computed for \textbf{many} different vectors.
+So we want connect the compute nodes so as to minimize the cost of the matrix-vector product,
+not the cost of distributing the matrix.
+
+You have access to $d$ compute nodes and enough material to connect $d$ pairs of compute nodes together.
+Using these connections, the unidirectional communication of $k$ bytes takes a time
+equal to $\alpha + \beta k$.
+Let $\gamma$ be the time taken by a compute node to execute one arithmetic operation
+and $z$ be the number of nonzero entries in the whole sparse matrix.
+
+\begin{parts}
+    \part How would you interconnect the compute nodes to minimize the time of the matrix-vector product ?
+    Which part of the matrix would be stored in each compute node?
+\SetTotalwidth
+        \begin{solutionbox}{14.5cm}
+        To minimize the time of the matrix-vector product, we should interconnect the compute nodes in a \textbf{star topology} (also called a hub-and-spoke topology), where one central node is connected directly to all other nodes. This is because, for each matrix-vector product, all nodes need access to the entire input vector, and the result vector may need to be gathered. The star topology allows the central node to broadcast the input vector to all other nodes in a single communication step, minimizing the communication time compared to a ring or tree, given a fixed number of connections.
+
+        Each compute node should store a subset of the matrix's rows (i.e., a \textbf{row-wise partitioning}). Specifically, the $n$ rows of the matrix are divided among the $d$ nodes, so that each node stores approximately $n/d$ rows and all the nonzero entries in those rows. This way, each node can compute its portion of the output vector independently once it has the full input vector.
+
+        Alternatively, we could interconnect the compute nodes in a \textbf{tree topology}, where each node is a vertex of the tree and the edges represent direct communication links. In this case, the $d$ connections are used to form a spanning tree with $d$ nodes and $d-1$ edges (and possibly one extra redundant connection).
+
+        For the matrix distribution, we would use a \textbf{column-wise partitioning}: each compute node stores a subset of the matrix's columns, along with all the nonzero entries in those columns. That is, if the matrix has $m$ rows and $n$ columns, each node is responsible for approximately $n/d$ columns and all their nonzero entries.
+        \end{solutionbox}
+    \part Assuming the interconnection topology you choose in the first part is used.
+    Suppose a dense vector is loaded in the memory of the first compute node.
+    Which MPI collectives would you use to compute the product of that vector with the sparse matrix
+    and retrieve the result on the first compute node?
+    What would be the time complexity of this operation in terms of $\alpha, \beta, \gamma, d, m, n$ and $z$ (you may not need all these 7 variables in your answer).
+\SetTotalwidth
+        \begin{solutionbox}{19cm}
+            The appropriate MPI collectives are:
+            \begin{itemize}
+                \item \texttt{MPI\_Bcast} to broadcast the (partial, for column-wise partitioning) input vector from the first node to all other nodes.
+                \item Each node computes its local matrix-vector product for its assigned rows.
+                \item \texttt{MPI\_Gather} to collect the (partial, for row-wise partitioning) result vectors from all nodes back to the first node.
+            \end{itemize}
+
+            For the \textbf{star topology} (row-wise partitioning),
+            the time complexity is:
+            \[
+                T_{\text{star}} = \mathcal{O}(\alpha + \beta n + \gamma (z / d + n) + \alpha + \beta m/d)
+            \]
+            where
+            \begin{itemize}
+            \item the first $\alpha + \beta n$ is for broadcasting the input vector of length $n$ (assuming node one can send the data to all other nodes in parallel since it has distinct connections to each node),
+            \item $\gamma (z / d + n)$ is the total computation time for $z$ nonzeros, if $d$ is large and gets close to $z$, the number of nonzeros per node is small but we still need to iterate through \texttt{colptr} which has length $n$ so we need to use $z/d + n$ not just $z/d$,
+            \item and the second $\alpha + \beta m/d$ is for gathering the result vector of size $m$.
+            \end{itemize}
+
+            For the \textbf{tree topology} (column-wise partitioning),
+            the time complexity is:
+            \[
+                T_{\text{tree}} = \mathcal{O}(\alpha \log_2 d + \beta (n/2 + n/4 + n/8 + \cdots) + \gamma (z + n) / d + (\alpha + \beta m + \gamma m) \log_2 d)
+            \]
+            where
+            \begin{itemize}
+                \item the first $\alpha \log_2 d + \beta n$ is for scattering the input vector (total size $n$).
+                The root needs to send half of the vector to each child so communicates vector of length $n/2$.
+                Then each child communicate half of the vector so length $n/4$ etc...
+                In total, we have a sum of $\mathcal{O}(n/2 + n/4 + n/8 + \cdots) = \mathcal{O}(n)$.
+                \item $\gamma (z + n) / d$ is the computation. In case the matrix is super sparse and $z \ll n$, we still need to iterate over \texttt{colptr} so we need $z + n$.
+                \item $(\alpha + \beta m + \gamma m) \log_2 d$ is for the reducing procedure of the result vector. This time, each communication is with the full result of length $m$ and we have to sum the partial result vectors of length $m$ at each level of the tree.
+            \end{itemize}
+        \end{solutionbox}
+\end{parts}

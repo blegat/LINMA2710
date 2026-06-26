@@ -1,0 +1,62 @@
+\question{}
+
+Below is the implementation of the multiplication of a sparse matrix in Column-Sparse Compressed (CSC) format with a dense vector.
+This implementation uses OpenMP to parallelize the multiplication.
+
+Here is example explaining the CSC format. Consider the following $3 \times 4$ sparse matrix:
+\[
+A = \begin{bmatrix}
+0 & 4 & 0 & 8 \\
+2 & 0 & 0 & 0 \\
+0 & 5 & 0 & 6 \\
+\end{bmatrix}
+\]
+
+The CSC (Compressed Sparse Column) representation is:
+\begin{itemize}
+    \item \texttt{nzval} = [2, 4, 5, 8, 6]
+    \item \texttt{rowval} = [1, 0, 2, 0, 2]
+    \item \texttt{colptr} = [0, 1, 3, 3, 5]
+\end{itemize}
+
+\textbf{Explanation:}
+\begin{itemize}
+    \item \texttt{nzval} stores the nonzero values, column by column.
+    \item \texttt{rowval} stores the row index for each value in \texttt{nzval}.
+    \item \texttt{colptr} indicates the starting index in \texttt{nzval} for each column (with the last entry pointing one past the end).
+\end{itemize}
+
+\lstinputlisting[language=C++, firstline=9, lastline=29]{Q3/sparse_matrix_csc.hpp}
+
+When trying your function, you sometime get 1) incorrect results and 2) degraded performance when using multiple threads.
+\begin{parts}
+\part What is the mistake in the \texttt{multiply} function shown above causing these issues? Explain why it is a problem, especially in the context of parallel execution with OpenMP.
+\SetTotalwidth
+    \begin{solutionbox}{9cm}
+        The line \lstinline{y[rowval[i]] += nzval[i] * x[i]} is not atomic.
+        This means that two threads could both read the same entry of \lstinline{y} at the same time, each compute their own sum, and then both write their results back.
+        For example, both threads might read the same initial value of \lstinline{y}, add their respective contributions, and then write their results.
+        In this case, whichever thread writes last will overwrite the result of the other, and the contribution from the first thread will be lost.
+        This is a race condition: the final value in \lstinline{y} may be missing the contribution from one of the threads.
+
+        Even if there are no incorrect results, performance issues can arise due to \emph{false sharing}.
+        False sharing occurs when multiple threads update elements of the result vector \lstinline{y} that are located close together in memory (i.e., on the same cache line).
+        When this happens, even though the threads are updating different elements, the cache coherence protocol will cause the cache line to bounce between the threads' cores, leading to unnecessary cache invalidations and degraded performance.
+        This can significantly slow down the program, especially if many threads frequently update nearby entries of \lstinline{y}.
+    \end{solutionbox}
+\part How can you fix the mistake? No need to write code, you can explain in words but then be precise.
+\SetTotalwidth
+    \begin{solutionbox}{9cm}
+        One can add a line with \texttt{\#pragma omp atomic} directive before the line where the result is updated.
+        This will ensure that the update is atomic, i.e., no two threads can update the same element in the result vector at the same time.
+
+        Alternatively, one can create separate result vectors for each thread and then merge them at the end.
+        This will ensure that each thread updates its own result vector and there is no race condition.
+
+        The first solution will be faster if there is a large number of columns compared to the number of threads, hence only a few collision will occur.
+        Otherwise, the second solution will be faster.
+
+        The advantage of the second solution (using separate result vectors for each thread and merging at the end) is also that it does not suffer from false sharing.
+        Since each thread writes to its own private result vector, there are no concurrent updates to nearby memory locations by different threads, so cache line contention and the associated performance penalty from false sharing are avoided.
+    \end{solutionbox}
+\end{parts}
