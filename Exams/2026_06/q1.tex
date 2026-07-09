@@ -1,0 +1,67 @@
+\question{}
+
+Consider this C++ code, in which lines 14--17 have been removed:
+
+% Source: https://cplusplus.com/doc/tutorial/functions2/
+
+\begin{lstlisting}
+#include <cmath>
+#include <iostream>
+using namespace std;
+
+int operate (int a, int b)
+{
+  return (a*b);
+}
+
+double operate (double a, double b)
+{
+  return (a/b);
+}
+\end{lstlisting}
+
+\begin{solutionbox}{2.8cm}
+\begin{lstlisting}[firstnumber=14]
+double operate (double a, int n)
+{
+    return pow(a,n);
+}
+\end{lstlisting}
+\end{solutionbox}
+
+\begin{lstlisting}[firstnumber=19]
+int main ()
+{
+  int m=5,n=2;
+  double y=5.0,z=2.0;
+  cout << operate (y,z) << '\n';
+  cout << operate (m,n) << '\n';
+  cout << operate (y,n) << '\n';
+  return 0;
+}
+\end{lstlisting}
+
+\begin{parts}
+%\begin{enumerate}[label=1.\arabic*]
+  %[label=\Alph*]
+
+  \part What output does line 23 produce? Briefly explain.
+    \begin{solutionbox}{3cm}
+      Line 23 produces 2.5. In line 23, in \texttt{operate (y,z)}, the arguments \texttt{y} and \texttt{z} have type \texttt{double}. Hence the function defined on lines 9--12 is called, and it returns 5.0/2.0, namely 2.5.
+    \end{solutionbox}
+
+  \part What output does line 24 produce? Briefly explain. What programming features does this illustrate?
+    \begin{solutionbox}{3cm}
+      Line 24 produces 10. In line 24, in \texttt{operate (m,n)}, variables \texttt{m} and \texttt{n} have type \texttt{int}. Hence the function defined on lines 5--8 is called, and it returns 5*2, namely 10. This illustrates the programming feature termed \emph{function overloading}.
+    \end{solutionbox}
+  
+  \part The prototype of function \texttt{pow}, that returns \texttt{base} raised to the power \texttt{exponent}, is 
+\\ \texttt{double pow (double base, double exponent)}. 
+\\ Fill out lines 14--17 in the box above such that line 25 prints 5.0 to the power 2, namely 25.0.
+  
+  \part Does the completed code perform narrowing cast or widening cast? Briefly explain.
+    \begin{solutionbox}{8cm}
+      In \texttt{pow(a,exp)}, function \texttt{pow} receives an \texttt{int} as second argument, whereas its prototype, \texttt{double pow (double base, double exponent)}, specifies that the type of the second parameter is \texttt{double}. As a consequence, the \texttt{int} variable \texttt{exp} is cast to type \texttt{double} in the scope of function \texttt{pow}. The destination \texttt{double} has a higher precision than the source \texttt{int}, hence this is a widening cast.
+    \end{solutionbox}
+
+\end{parts}
