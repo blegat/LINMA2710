@@ -22,9 +22,9 @@ double operate (double a, double b)
 
 \begin{solutionbox}{2.8cm}
 \begin{lstlisting}[firstnumber=14]
-double operate (double a, int n)
+double operate (double a, int exp)
 {
-    return pow(a,n);
+    return pow(a,exp);
 }
 \end{lstlisting}
 \end{solutionbox}
@@ -47,7 +47,7 @@ int main ()
 
   \part What output does line 23 produce? Briefly explain.
     \begin{solutionbox}{3cm}
-      Line 23 produces 2.5. In line 23, in \texttt{operate (y,z)}, the arguments \texttt{y} and \texttt{z} have type \texttt{double}. Hence the function defined on lines 9--12 is called, and it returns 5.0/2.0, namely 2.5.
+      Line 23 produces 2.5. In line 23, in \texttt{operate (y,z)}, the arguments \texttt{y} and \texttt{z} have type \texttt{double}. Hence the function defined on lines 10--13 is called, and it returns 5.0/2.0, namely 2.5.
     \end{solutionbox}
 
   \part What output does line 24 produce? Briefly explain. What programming features does this illustrate?
