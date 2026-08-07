@@ -1,0 +1,47 @@
+\question{}
+
+Consider this C++ code, in which lines 5, 7, 25, and 26 have been hidden:
+
+% Source: https://cplusplus.com/doc/tutorial/classes/
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+class Rectangle {
+//  int mWidth, mHeight;
+public:
+//  Rectangle(int w, int h);
+  int area(void) { return mWidth * mHeight; }
+};
+
+Rectangle::Rectangle(int w, int h)
+{
+    mWidth = w;
+    mHeight = h;
+}
+
+int main() {
+  Rectangle * p_r;
+  Rectangle * a_r;
+  p_r = new Rectangle (1, 2);
+  a_r = new Rectangle[2] { {3,4}, {5,6} };
+  cout << "*p_r's area: " << p_r->area() << '\n';
+  cout << "a_r[0]'s area:" << a_r[0].area() << '\n';
+  cout << "a_r[1]'s area:" << a_r[1].area() << '\n';       
+//  delete p_r;
+//  delete[] a_r;
+  return 0;
+}
+
+\end{lstlisting}
+
+\begin{parts}
+
+\part Write the four missing lines directly in the code.
+
+\part Briefly justify your answers.
+
+\part What output does line 24 produce? Briefly explain why.
+
+\end{parts}

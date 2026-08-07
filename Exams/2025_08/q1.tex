@@ -1,0 +1,39 @@
+\question{}
+
+Fill the gap between lines 3 and 21 in this C++ code. The code is meant to print ``4.4'', which is the area of a room of length 2.2 and breadth 2.0.
+
+% Source: https://www.programiz.com/cpp-programming/object-class
+
+\begin{lstlisting}
+
+#include <iostream>
+using namespace std;
+
+// class Room {
+//
+//   public:
+//    double length;
+//    double breadth;
+//    double height;
+//
+//    double calculate_area() {
+//        return length * breadth;
+//    }
+//
+//    double calculate_volume() {
+//        return length * breadth * height;
+//    }
+// };
+
+int main() {
+
+    Room room1;
+
+    room1.length = 2.2;
+    room1.breadth = 2.0;
+
+    cout << "Area of Room =  " << room1.calculate_area() << endl;
+
+    return 0;
+}
+\end{lstlisting}

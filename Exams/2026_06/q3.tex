@@ -1,0 +1,118 @@
+\question{}
+
+You are tasked to implement a matrix-matrix-transpose product in the context of transformer inference.
+One key component of this model is the attention head where, given a matrix of queries $Q$ and a matrix of keys $K$ and you need to compute the dot products of all pairs of rows.
+This amounts to computing the entries (the so-called \emph{attention scores}) of the following $R$ matrix:
+\[ R = QK^\top. \]
+
+You launch 3 AI coding agents to solve the same task of computing this product and they produce 3 different solutions:
+
+\noindent\textbf{IJK} solution:
+\lstinputlisting[language=C]{Q3/ijk.c}
+
+\noindent\textbf{IKJ} solution:
+\lstinputlisting[language=C]{Q3/ikj.c}
+
+\noindent\textbf{Tiling} solution\footnote{To simplify, we assume that $n$ is a multiple of $b$.}:
+\lstinputlisting[language=C]{Q3/block.c}
+
+We will assume that
+\begin{enumerate}
+\item the three matrices are square $Q, K, R \in \mathbb{R}^{n \times n}$,
+\item the \lstinline|float| entries are represented as 32-bit floating point numbers,
+\item the addresses of the first entries of $Q$, $K$ and $R$ are aligned with the start of a cache line,
+\item the matrices are represented in a row-major format, which means that two entries of the same row and adjacent columns are adjacent in memory,
+\item the dimension $n$ is so large that even a single row of $Q$, $K$ or $R$ does not fit in the L1 cache.
+\end{enumerate}
+
+\begin{parts}
+\part You first benchmark the IJK and IKJ solutions and notice that one is significantly faster than the other one.
+Which one do you think is faster\footnote{Note that this is not the classical matrix-matrix product, since the left-hand side is multiplying by the \textbf{transpose} of the right-hand side.} ? Explain why.
+\SetTotalwidth
+    \begin{solutionbox}{6.8cm}
+    \textbf{IJK is faster.}
+    Because we compute $R = QK^\top$, the inner sum is $R_{ij}=\sum_k Q_{ik}K_{jk}$, i.e.\ both matrices are walked along their \emph{rows}.
+    \begin{itemize}
+      \item In \textbf{IJK} the innermost loop varies $k$ with $i,j$ fixed and accesses \texttt{Q[i*n+k]} and \texttt{K[j*n+k]}: both are unit-stride (sequential) reads down a row, perfectly cache- and prefetcher-friendly.
+      \item In \textbf{IKJ} the innermost loop varies $j$ with $i,k$ fixed and accesses \texttt{K[j*n+k]}: $j$ jumps by $n$ floats between iterations, so we walk a \emph{column} of $K$ with stride $n$. Every read lands in a different cache line $\Rightarrow$ essentially one cache miss per multiplication.
+    \end{itemize}
+    (Note: this is the opposite of the usual $C=AB$ rule, where IKJ wins. The transpose on $K$ flips which order is row-sequential.)
+    \end{solutionbox}
+\part Given that the size of the L1 cache is 64 KiB (so $2^{16}$ bytes),
+what value of $b$ should you take for the tiling solution ?
+Explain why.
+\SetTotalwidth
+    \begin{solutionbox}{6.8cm}
+    We want the three working tiles (\texttt{BQ}, \texttt{BK}, \texttt{BR}) — each $b\times b$ of 4-byte floats — to live simultaneously in L1:
+    \[
+      3\,b^2\cdot 4 \;\le\; 2^{16} \;\Longleftrightarrow\; b^2 \le \tfrac{2^{16}}{12} \approx 5461 \;\Longleftrightarrow\; b \le 73.
+    \]
+    A power-of-two choice that comfortably fits is $\boxed{b = 64}$ (uses $3\cdot 64^2\cdot 4 = 48$\,KiB and aligns nicely with the 64-byte cache line, which holds $16$ floats). Choosing $b$ too large $\Rightarrow$ tiles thrash L1; too small $\Rightarrow$ tile overhead dominates and you get less reuse per byte loaded.
+    \end{solutionbox}
+\part Given a cache line size of 64 bytes, how many cache lines will the L1 cache need to
+fetch\footnote{from the L2/L3 or main memory. To simplify, you can ignore the L2 and L3 caches for this question.}
+for each of the 3 solutions ?
+\SetTotalwidth
+    \begin{solutionbox}{20cm}
+    A cache line holds $64/4 = 16$ floats. Recall that $n$ is so large that even a single row does not fit in L1.
+    \begin{itemize}
+      \item \textbf{IJK.} For each $(i,j)$ the inner $k$-loop reads row $i$ of $Q$ and row $j$ of $K$ sequentially ($n/16$ lines each); the row of $R$ is written ($n/16$ lines per $i$). Since a single row no longer fits in L1, row $i$ of $Q$ is \emph{evicted} before the next $j$ iteration could reuse it, so it must be reloaded for every $j$ (no reuse across $j$).
+      \[
+        \underbrace{n^2\cdot\tfrac{n}{16}}_{Q}+\underbrace{n^2\cdot\tfrac{n}{16}}_{K}+\underbrace{n\cdot\tfrac{n}{16}}_{R}\;=\;\tfrac{n^3}{8}+\tfrac{n^2}{16}\;\approx\;\tfrac{n^3}{8}.
+      \]
+      \item \textbf{IKJ.} $Q$: $n^2/16$ lines ($Q[i{\cdot}n{+}k]$ is read sequentially in $k$, one line shared by $16$ consecutive $k$). $K$: the inner $j$-loop strides by $n$, so \emph{each} read of $K[j{\cdot}n{+}k]$ touches a fresh cache line: $n$ lines per inner loop $\times\, n^2$ outer $(i,k)$ pairs $= n^3$ lines. $R$: the inner $j$-loop sweeps the whole row $i$ of $R$ ($n/16$ lines); since a row no longer fits, it cannot stay cached across the $k$-loop and is reloaded for every $(i,k)$ pair: $n^3/16$ lines.
+      \[
+        \tfrac{n^2}{16}+n^3+\tfrac{n^3}{16}\;\approx\;n^3\quad(\text{$8\times$ worse than IJK}).
+      \]
+      \item \textbf{Tiling.} Each $b\times b$ tile is $b^2/16$ lines. With the loop order $(b_i,b_j,b_k)$, the $R$-tile at $(b_i,b_j)$ is reused across all $n/b$ values of $b_k$; the $Q$- and $K$-tiles are reloaded for every $(b_i,b_j,b_k)$.
+      \[
+        \underbrace{2\cdot\tfrac{n^3}{b^3}\cdot\tfrac{b^2}{16}}_{Q\text{ and }K}+\underbrace{\tfrac{n^2}{b^2}\cdot\tfrac{b^2}{16}}_{R}\;=\;\tfrac{n^3}{8b}+\tfrac{n^2}{16}.
+      \]
+      With $b=64$: $\approx n^3/512$, i.e.\ $64\times$ better than IJK.
+    \end{itemize}
+    \end{solutionbox}
+\part You now port the tiling solution to a GPU using OpenCL. Instead of tiling
+for the L1 cache, you tile for the on-chip \emph{shared memory}: each work-group
+computes one $b\times b$ tile of $R$ with $b\times b$ work-items that cooperatively
+stage one tile of $Q$ and one tile of $K$ into a buffer shared by the whole group,
+synchronize, and then accumulate the product out of that buffer.
+Fill in the missing lines in the following kernel.
+\lstinputlisting[language=C,linerange={1-20}]{Q3/shared.cl}
+    \begin{solutionbox}{8cm}
+    \lstinputlisting[language=C,linerange={21-28},firstnumber=21]{Q3/shared.cl}
+    \end{solutionbox}
+\lstinputlisting[language=C,linerange={29-32},firstnumber=29]{Q3/shared.cl}
+%What value of $b$ should you take, i.e.\ which spec of your GPU should you look for,
+%and why? And why would the inner accumulation loop produce wrong results if
+%\texttt{BQ} and \texttt{BK} were \emph{not} declared with \texttt{\_\_local}?
+%\SetTotalwidth
+%    \begin{solutionbox}{12cm}
+%    \textbf{Which spec / value of $b$.} The two tiles must fit \emph{simultaneously}
+%    in the shared memory available to one work-group, so look up the device's
+%    \emph{local memory size} (\texttt{CL\_DEVICE\_LOCAL\_MEM\_SIZE}, typically
+%    $32$ or $48$\,KiB per compute unit):
+%    \[
+%      2\,b^2\cdot 4 \;\le\; \texttt{CL\_DEVICE\_LOCAL\_MEM\_SIZE}.
+%    \]
+%    A second limit is the \emph{maximum work-group size}
+%    (\texttt{CL\_DEVICE\_MAX\_WORK\_GROUP\_SIZE}), since a group runs $b^2$
+%    work-items: $b^2 \le \texttt{CL\_DEVICE\_MAX\_WORK\_GROUP\_SIZE}$ (often
+%    $1024$, giving $b\le 32$). With $48$\,KiB of local memory $2b^2\cdot4\le 2^{16}$
+%    would allow $b\le 90$, so the work-group limit binds first and a natural choice
+%    is $\boxed{b = 32}$ (a multiple of the warp/wavefront width, $2b^2\cdot4 = 8$\,KiB,
+%    $1024$ work-items).
+%    \medskip
+%
+%    \textbf{Why \texttt{\_\_local} is required.} The whole point of the kernel is
+%    that each work-item loads \emph{one} element of each tile, and the inner loop
+%    then reads the $b-1$ \emph{other} elements that its neighbours loaded. That only
+%    works if the buffer is visible to the entire work-group: \texttt{\_\_local}
+%    memory is shared by all work-items of a group, whereas a plain
+%    (\texttt{\_\_private}) array lives in each work-item's own registers and is
+%    invisible to the others, so each work-item would only ever see the single value
+%    it wrote and the sum would be garbage. Moreover
+%    \texttt{barrier(CLK\_LOCAL\_MEM\_FENCE)} only synchronizes \texttt{\_\_local}
+%    memory; without local memory there is nothing for the barrier to coordinate, so
+%    there would be no way to guarantee the cooperative loads finish before the reads.
+%    \end{solutionbox}
+\end{parts}

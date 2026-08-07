@@ -1,0 +1,45 @@
+\question{}
+
+Consider Poisson's equation
+\[
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} = 1
+\]
+in a cube $\Omega = \{(x,y,z)\in\mathbb{R}^3: 0\leq (x,y,z) \leq L\}$.
+The boundary conditions are zero Dirichlet conditions. Consider an axis-aligned grid with steps $\Delta_x = L/J_x$, $\Delta_y = L/J_y$, $\Delta_z = L/J_z$.
+
+%\begin{enumerate}[label=2.\arabic*]
+\begin{parts}
+%[label=\Alph*]
+\part Write a finite volume scheme for this problem based on the given grid. 
+    \begin{solutionbox}{18cm}
+        Let $U_{i,j,k}$ denote the approximate solution of the PDE at vertex $(i \Delta_x, j \Delta_y, k \Delta_z) \in \Omega$ for $i = 0,\dots,J_x$, $j = 0,\dots,J_y$, $k = 0,\dots,J_z$. 
+The scheme is
+% \begin{multline*}
+% \frac{U_{i+1,j,k} - 2 U_{i,j,k} + U_{i-1,j,k}}{\Delta_x} \Delta_y \Delta_z
+% + \frac{U_{i,j+1,k} - 2 U_{i,j,k} + U_{i,j-1,k}}{\Delta_y} \Delta_z \Delta_x
+% \\ + \frac{U_{i,j,k+1} - 2 U_{i,j,k} + U_{i,j,k-1}}{\Delta_z} \Delta_x \Delta_y
+%  = \Delta_x \Delta_y \Delta_z
+% \end{multline*}
+\begin{multline*}
+\frac{U_{i+1,j,k} - U_{i,j,k}}{\Delta_x} \Delta_y \Delta_z + \frac{U_{i-1,j,k} - U_{i,j,k}}{\Delta_x} \Delta_y \Delta_z
+\\ + \frac{U_{i,j+1,k} - U_{i,j,k}}{\Delta_y} \Delta_z \Delta_x + \frac{U_{i,j-1,k} - U_{i,j,k}}{\Delta_y} \Delta_z \Delta_x
+\\ + \frac{U_{i,j,k+1} - U_{i,j,k}}{\Delta_z} \Delta_x \Delta_y + \frac{U_{i-1,j,k-1} - U_{i,j,k}}{\Delta_z} \Delta_x \Delta_y
+\\ = \Delta_x \Delta_y \Delta_z
+\end{multline*}
+for $i = 1,\dots,J_x-1$, $j = 1,\dots,J_y-1$, $k = 1,\dots,J_z-1$, with $U_{i,j,k} = 0$ whenever $i=0$ or $i=J_x$ or $j=0$ or $j=J_y$ or $k=0$ or $k=J_z$. 
+
+\textcolor{blue}{Observe that the scheme simplifies to 
+\begin{multline*}
+\frac{U_{i+1,j,k} - 2 U_{i,j,k} + U_{i-1,j,k}}{\Delta_x^2}
++ \frac{U_{i,j+1,k} - 2 U_{i,j,k} + U_{i,j-1,k}}{\Delta_y^2}
+\\ + \frac{U_{i,j,k+1} - 2 U_{i,j,k} + U_{i-1,j,k-1}}{\Delta_z^2}
+ = 1.
+\end{multline*}
+}
+    \end{solutionbox}
+\part Explain how you obtained the scheme. 
+    \begin{solutionbox}{20cm}
+        \textcolor{blue}{A justification can be deduced from the part on finite volume methods in the course notes, considering the specified PDE, domain, boundary conditions, and the vertices $(i \Delta_x, j \Delta_y, k \Delta_z) \in \Omega$ for $i = 0,\dots,J_x$, $j = 0,\dots,J_y$, $k = 0,\dots,J_z$. Observe that with these vertices, the Voronoi cells are axis-aligned rectangular parallelepipeds: $V_{i,j,k} = \{(x,y,z) \in \Omega: (i-\frac12)\Delta_x \leq x \leq (i+\frac12)\Delta_x, (j-\frac12)\Delta_y \leq y \leq (j+\frac12)\Delta_y, (k-\frac12)\Delta_z \leq z \leq (k+\frac12)\Delta_z\}$ for $i = 0,\dots,J_x$, $j = 0,\dots,J_y$, $k = 0,\dots,J_z$. In other words, $V_{i,j,k}$ is the axis-aligned rectangular parallelepiped centered at $(i \Delta_x, j \Delta_y, k \Delta_z)$ of size $\Delta_x \times \Delta_y \times \Delta_z$ and restricted to $\Omega$, this restriction only affecting the cells of the vertices that belong to the boundary $\partial \Omega$. Parallelepipeds have six faces, and each of the six terms on the left-hand side of the scheme equation given in answer 2(a) corresponds to the contribution of the boundary part between cell $V_{i,j,k}$ and one of the six neighboring cells. 
+} 
+    \end{solutionbox}
+\end{parts}

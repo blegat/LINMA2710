@@ -1,0 +1,50 @@
+\question{}
+
+While inspecting the cluster, you discover that one of your colleagues Alice has
+been mining bitcoin on the compute nodes whenever no user job is running on them,
+i.e.\ he keeps the otherwise-idle nodes busy at $100\%$ utilization.
+
+Bob complains that this is inflating the electricity bill.
+Alice replies:
+\begin{quote}\itshape
+``The nodes have to stay powered on anyway as they must be ready the instant a user
+asks for compute, so we are not allowed to switch them off. A node that is on
+consumes its power regardless of what it does, so it draws the same whether it sits
+idle or mines bitcoin. I might as well put those idle cycles to use.''
+\end{quote}
+
+We grant Alice her premise: the nodes \textbf{must stay on and ready}, so the question is
+\emph{not} whether they could be switched off.
+Taking that as fixed, is the rest of
+Alice reasoning ``that an \textbf{on-but-idle} node draws the same power as an
+\textbf{on-and-fully-loaded} one'' correct? Justify quantitatively.
+
+\SetTotalwidth
+  \begin{solutionbox}{14cm}
+    \textbf{No --- her reasoning is wrong; ``on'' does not mean ``drawing full power''.}
+    The power of a CPU/GPU is not a constant; it splits into
+    \[
+      P \;=\; \underbrace{P_{\text{static}}}_{\text{leakage}} \;+\; \underbrace{\alpha\,C\,V^2 f}_{\text{dynamic}} ,
+    \]
+    where $\alpha$ is the \emph{activity factor} (fraction of transistors actually
+    switching). On an idle node $\alpha \approx 0$, so the dynamic term --- which
+    dominates the total under load --- essentially vanishes. On top of that, an idle
+    node is not held at its maximum operating point:
+    \begin{itemize}
+      \item \textbf{DVFS} lowers the clock $f$ and voltage $V$ when there is no work;
+            since dynamic power $\propto V^2 f$, dropping both cuts it
+            super-linearly.
+      \item \textbf{Idle / sleep states} (CPU C-states, GPU power states) clock-gate
+            and power-gate unused units, further shrinking $P_{\text{static}}$.
+    \end{itemize}
+    Concretely, a server CPU/GPU idles at a small fraction of its TDP and rises to
+    (near) its full TDP only at $100\%$ utilization --- often a $3\times$ to $10\times$
+    swing between idle and a sustained mining load. Bitcoin mining deliberately pins
+    every core at maximum, i.e.\ it drives $\alpha$, $f$ and $V$ all to their peak, so
+    it adds (close to) the \emph{entire} dynamic power budget of every node it touches
+    --- plus extra cooling power to remove that heat.
+
+    So even though the nodes legitimately stay powered on, ``idle'' and ``mining'' are
+    very far from the same electricity draw: the mining is genuinely adding to the bill,
+    and the ``it's the same anyway'' argument is false.
+  \end{solutionbox}

@@ -1,0 +1,4 @@
+[deps]
+OpenCL = "08131aa3-fb12-5dee-8b74-c09406e224a2"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+pocl_jll = "627d6b7a-bbe6-5189-83e7-98cc0a5aeadd"
